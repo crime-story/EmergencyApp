@@ -3,20 +3,23 @@ package com.lifeSavers.emergencyapp
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.second_page_guide.*
+import com.lifeSavers.emergencyapp.databinding.SecondPageGuideBinding
 
 class GuidePage2 : AppCompatActivity() {
 
+    private lateinit var binding: SecondPageGuideBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.second_page_guide)
+        binding = SecondPageGuideBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        ThirdPageButton.setOnClickListener {
+        binding.ThirdPageButton.setOnClickListener {
             val intent = Intent(this, GuidePage3::class.java)
             startActivity(intent)
         }
 
-        ThirdPageButtonSkip.setOnClickListener {
+        binding.ThirdPageButtonSkip.setOnClickListener {
             val intent = Intent(this, LogInActivity::class.java)
             startActivity(intent)
         }

@@ -1,19 +1,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/first_page_guide_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ccffff"
     tools:context=".GuidePage1">
 
-    <TextView
+    <ImageView
+        android:id="@+id/welcome_image_view"
         android:layout_width="214dp"
         android:layout_height="206dp"
         android:layout_gravity="center"
         android:layout_marginStart="100dp"
         android:layout_marginTop="60dp"
-        android:background="@drawable/welcome" />
+        android:src="@drawable/welcome" />
 
     <TextView
+        android:id="@+id/welcome_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -25,6 +28,7 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/guide_message_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

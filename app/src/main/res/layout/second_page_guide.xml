@@ -5,13 +5,13 @@
     android:background="#ccffff"
     tools:context=".GuidePage2">
 
-    <TextView
+    <ImageView
         android:layout_width="214dp"
         android:layout_height="206dp"
         android:layout_gravity="center"
         android:layout_marginStart="100dp"
         android:layout_marginTop="60dp"
-        android:background="@drawable/map" />
+        android:src="@drawable/map" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -51,4 +51,5 @@
         android:layout_marginStart="260dp"
         android:layout_marginTop="600dp"
         android:text="@string/next" />
+
 </RelativeLayout>
