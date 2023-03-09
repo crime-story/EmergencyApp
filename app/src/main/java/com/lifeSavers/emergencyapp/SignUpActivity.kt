@@ -1,4 +1,4 @@
-package com.lifeSavers.emergencyappsignup
+package com.lifeSavers.emergencyapp
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.lifeSavers.emergencyappsignup.databinding.ActivitySignUpBinding
-import com.lifeSavers.emergencyappsignup.model.User
+import com.lifeSavers.emergencyapp.databinding.ActivitySignUpBinding
+import com.lifeSavers.emergencyapp.model.User
 import java.util.*
 
 class SignUpActivity : AppCompatActivity() {
@@ -89,10 +89,10 @@ class SignUpActivity : AppCompatActivity() {
         } else if (password.length < 6) {
             // password length is less than 6
             binding.passwordEt.error = "Password must contain at least 6 characters"
-        } else if (!password.equals(confirmedPassword)) {
+        } else if (password != confirmedPassword) {
             binding.passwordEt.error = "Password and Confirmed Password must match"
             binding.confirmedPasswordEt.error = "Password and Confirmed Password must match"
-        } else if (name.equals("")) {
+        } else if (name == "") {
             binding.nameEt.error = "Please enter name"
         } else if (name.length < 3) {
             binding.nameEt.error = "Name must contain at least 3 letters"
@@ -134,7 +134,7 @@ class SignUpActivity : AppCompatActivity() {
                         val user =
                             User(firebaseUser.uid, name1, email1, phoneNumber1, birthDate1, 0, "")
                         database.child(firebaseUser.uid)
-                            .setValue(user) // adds on Database a new registred user
+                            .setValue(user) // adds on Database a new registered user
                             .addOnSuccessListener {
                                 binding.nameEt.text.clear()
                                 binding.emailEt.text.clear()

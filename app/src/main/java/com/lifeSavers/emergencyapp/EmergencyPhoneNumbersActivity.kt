@@ -1,4 +1,4 @@
-package com.lifeSavers.emergencyappsignup
+package com.lifeSavers.emergencyapp
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -14,9 +14,9 @@ import androidx.core.app.ActivityCompat
 
 class EmergencyPhoneNumbersActivity : AppCompatActivity() {
 
-    var phoneNumber = "123"
+    private var phoneNumber = "123"
 
-    val REQUEST_PHONE_CALL = 1
+    private val requestPhoneCall = 1
 
     // ActionBar
     private lateinit var actionBar: ActionBar
@@ -38,13 +38,13 @@ class EmergencyPhoneNumbersActivity : AppCompatActivity() {
             "Child's phone",
             "Consumers Protection",
             "Border Police",
-            "Romanian Automotive Register (RAR) - Appointments and Informations",
+            "Romanian Automotive Register (RAR) - Appointments and Information",
             "Ministry of Public Finance - Consumers phone",
             "Green line anti-corruption",
             "National Sanitary Veterinary and Food Safety Authority",
             "National Tourism Authority - Consumers phone",
             "National Energy Regulatory Authority",
-            "National Company of Highways and National Roads in Romania - Informations and Vignette"
+            "National Company of Highways and National Roads in Romania - Information and Vignette"
         )
         val arrayAdapter: ArrayAdapter<String> =
             ArrayAdapter(this, android.R.layout.simple_list_item_1, names)
@@ -68,7 +68,7 @@ class EmergencyPhoneNumbersActivity : AppCompatActivity() {
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(Manifest.permission.CALL_PHONE),
-                    REQUEST_PHONE_CALL
+                    requestPhoneCall
                 )
             } else {
                 phoneNumber = phoneNumbers[i]
@@ -82,7 +82,7 @@ class EmergencyPhoneNumbersActivity : AppCompatActivity() {
     private fun startCall() {
         val callIntent = Intent(Intent.ACTION_CALL)
 
-        callIntent.data = Uri.parse("tel: " + phoneNumber)
+        callIntent.data = Uri.parse("tel: $phoneNumber")
 
         startActivity(callIntent)
     }
@@ -93,7 +93,7 @@ class EmergencyPhoneNumbersActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQUEST_PHONE_CALL)
+        if (requestCode == requestPhoneCall)
             startCall()
     }
 

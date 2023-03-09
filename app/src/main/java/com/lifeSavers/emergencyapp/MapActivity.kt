@@ -1,10 +1,9 @@
-package com.lifeSavers.emergencyappsignup
+package com.lifeSavers.emergencyapp
 
 // import android.R
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.IntentSender.SendIntentException
-import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -13,12 +12,14 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -39,16 +40,13 @@ import java.util.*
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var mMap: GoogleMap
-    lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
     lateinit var placesClient: PlacesClient
     lateinit var predictionList: List<AutocompletePrediction>
-    lateinit var mLastKnownLocation: Location
-    lateinit var locationCallback: LocationCallback
     lateinit var materialSearchBar: MaterialSearchBar
-    var mapView: View? = null
-    lateinit var btnFind: Button
-    lateinit var rippleBg: RippleBackground
-    val DEFAULT_ZOOM = 15f
+    private var mapView: View? = null
+    private lateinit var rippleBg: RippleBackground
+    val defaultZoom = 15f
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
@@ -93,7 +91,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                                 val suggestionsList: MutableList<String?> =
                                     ArrayList()
                                 for (i in predictionList.indices) {
-                                    val prediction = predictionList.get(i)
+                                    val prediction = predictionList[i]
                                     suggestionsList.add(prediction.getFullText(null).toString())
                                 }
                                 materialSearchBar.updateLastSuggestions(suggestionsList)
@@ -102,7 +100,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                                 }
                             }
                         } else {
-                            Log.i("mytag", "prediction fetching task unsuccessful")
+                            Log.i("myTag", "prediction fetching task unsuccessful")
                         }
                     }
             }
@@ -128,28 +126,27 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                     InputMethodManager.HIDE_IMPLICIT_ONLY
                 )
                 val placeId = selectedPrediction.placeId
-                val placeFields = Arrays.asList(Place.Field.LAT_LNG)
+                val placeFields = listOf(Place.Field.LAT_LNG)
                 val fetchPlaceRequest = FetchPlaceRequest.builder(placeId, placeFields).build()
                 placesClient.fetchPlace(fetchPlaceRequest)
                     .addOnSuccessListener { fetchPlaceResponse ->
                         val place = fetchPlaceResponse.place
-                        Log.i("mytag", "Place found: " + place.name)
+                        Log.i("myTag", "Place found: " + place.name)
                         val latLngOfPlace = place.latLng
                         if (latLngOfPlace != null) {
                             mMap.moveCamera(
                                 CameraUpdateFactory.newLatLngZoom(
                                     latLngOfPlace,
-                                    DEFAULT_ZOOM
+                                    defaultZoom
                                 )
                             )
                         }
                     }.addOnFailureListener { e ->
                         if (e is ApiException) {
-                            val apiException = e
-                            apiException.printStackTrace()
-                            val statusCode = apiException.statusCode
-                            Log.i("mytag", "place not found: " + e.message)
-                            Log.i("mytag", "status code: $statusCode")
+                            e.printStackTrace()
+                            val statusCode = e.statusCode
+                            Log.i("myTag", "place not found: " + e.message)
+                            Log.i("myTag", "status code: $statusCode")
                         }
                     }
             }

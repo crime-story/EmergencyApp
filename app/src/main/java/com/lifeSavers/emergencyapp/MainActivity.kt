@@ -1,10 +1,10 @@
-package com.lifeSavers.emergencyappsignup
+package com.lifeSavers.emergencyapp
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import com.lifeSavers.emergencyappsignup.databinding.ActivityMainBinding
+import com.lifeSavers.emergencyapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

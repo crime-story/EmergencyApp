@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgroundimg_assistants"
+    android:background="@drawable/background_img_assistants"
     android:orientation="vertical"
     tools:context=".AssistantsListForUsersActivity">
 
@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Get help from our Life Savers"
+        android:text="@string/get_help_from_our_life_savers"
         android:textAlignment="center"
         android:textColor="@color/main_color"
         android:textSize="25sp"
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
-        android:text="Ask our assistants any question and get a solution for your problem"
+        android:text="@string/ask_our_assistants_any_question_and_get_a_solution_for_your_problem"
         android:textAlignment="center"
         android:textColor="@android:color/darker_gray"
         android:textSize="13sp"

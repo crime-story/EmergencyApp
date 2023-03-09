@@ -1,4 +1,4 @@
-package com.lifeSavers.emergencyappsignup
+package com.lifeSavers.emergencyapp
 
 import android.content.Intent
 import android.os.Bundle

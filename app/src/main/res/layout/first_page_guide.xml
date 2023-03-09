@@ -6,11 +6,10 @@
     tools:context=".GuidePage1">
 
     <TextView
-        android:id="@+id/titleLabelTv"
         android:layout_width="214dp"
         android:layout_height="206dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="100dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="60dp"
         android:background="@drawable/welcome" />
 
@@ -20,7 +19,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="300dp"
         android:padding="10dp"
-        android:text="Welcome!"
+        android:text="@string/welcome"
         android:textColor="#6666ff"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -30,8 +29,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="350dp"
+        android:gravity="center"
         android:padding="10dp"
-        android:text="    We are here to help you!\nFirst of all you have to create\n               an account! "
+        android:text="@string/first_page_guide_message"
         android:textColor="#6666ff"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -40,16 +40,16 @@
         android:id="@+id/SecondPageButtonSkip"
         android:layout_width="100dp"
         android:layout_height="60dp"
-        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="600dp"
-        android:text="Skip" />
+        android:text="@string/skip" />
 
     <Button
         android:id="@+id/SecondPageButton"
         android:layout_width="100dp"
         android:layout_height="60dp"
-        android:layout_marginLeft="260dp"
+        android:layout_marginStart="260dp"
         android:layout_marginTop="600dp"
-        android:text="Next" />
+        android:text="@string/next" />
 
 </RelativeLayout>

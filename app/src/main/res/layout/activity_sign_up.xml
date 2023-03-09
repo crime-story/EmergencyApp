@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgroundimg"
+    android:background="@drawable/background_img"
     tools:context=".SignUpActivity">
 
     <LinearLayout
@@ -101,8 +101,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autofillHints=""
-                android:hint="Year of Birth"
-                android:inputType="number" />
+                android:hint="@string/year_of_birth"
+                android:inputType="datetime" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

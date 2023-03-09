@@ -1,4 +1,4 @@
-package com.lifeSavers.emergencyappsignup
+package com.lifeSavers.emergencyapp
 
 import android.app.Activity
 import android.app.ProgressDialog
@@ -10,11 +10,8 @@ import android.provider.MediaStore
 import android.util.Patterns
 import android.view.Menu
 import android.widget.PopupMenu
-import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import android.widget.Toast.makeText
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
@@ -26,7 +23,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
-import com.lifeSavers.emergencyappsignup.databinding.ActivityProfileEditBinding
+import com.lifeSavers.emergencyapp.databinding.ActivityProfileEditBinding
 import java.util.*
 
 class ProfileEditActivity : AppCompatActivity() {
@@ -98,7 +95,7 @@ class ProfileEditActivity : AppCompatActivity() {
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             // invalid email format
             binding.emailEt.error = "Invalid email format"
-        } else if (name.equals("")) {
+        } else if (name == "") {
             binding.nameEt.error = "Please enter name"
         } else if (name.length < 3) {
             binding.nameEt.error = "Name must contain at least 3 letters"
@@ -151,10 +148,10 @@ class ProfileEditActivity : AppCompatActivity() {
 
         // setup info to update to database
         val hashmap: HashMap<String, Any> = HashMap()
-        hashmap["name"] = "$name"
-        hashmap["email"] = "$email"
-        hashmap["phoneNumber"] = "$phoneNumber"
-        hashmap["birthDate"] = "$birthDate"
+        hashmap["name"] = name
+        hashmap["email"] = email
+        hashmap["phoneNumber"] = phoneNumber
+        hashmap["birthDate"] = birthDate
         if (imageUri != null) {
             hashmap["profileImage"] = uploadedImageUrl
         }
@@ -168,7 +165,7 @@ class ProfileEditActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 // profile updated
                 progressDialog.dismiss()
-                Toast.makeText(this, "Profile updated", Toast.LENGTH_SHORT).show()
+                makeText(this, "Profile updated", LENGTH_SHORT).show()
                 startActivity(Intent(this@ProfileEditActivity, ProfileActivity::class.java))
             }
             .addOnFailureListener { e ->
@@ -264,40 +261,38 @@ class ProfileEditActivity : AppCompatActivity() {
 
     // used to handle result of camera intent (new way in replacement of startActivityForResult)
     private val cameraActivityResultLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult(),
-        ActivityResultCallback<ActivityResult> { result ->
-            // get uri of image
-            if (result.resultCode == Activity.RESULT_OK) {
-                val data = result.data
-                //imageUri = data!!.data
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        // get uri of image
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data = result.data
+            //imageUri = data!!.data
 
-                // set to imageview
-                binding.profilePic.setImageURI(imageUri)
-            } else {
-                // cancelled
-                makeText(this, "Cancelled", LENGTH_SHORT).show()
-            }
-
+            // set to imageview
+            binding.profilePic.setImageURI(imageUri)
+        } else {
+            // cancelled
+            makeText(this, "Cancelled", LENGTH_SHORT).show()
         }
-    )
+
+    }
 
     // used to handle result of gallery intent (new way in replacement of startActivityForResult)
     private val galleryActivityResultLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult(),
-        ActivityResultCallback<ActivityResult> { result ->
-            // get uri of image
-            if (result.resultCode == Activity.RESULT_OK) {
-                val data = result.data
-                imageUri = data!!.data
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        // get uri of image
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data = result.data
+            imageUri = data!!.data
 
-                // set to imageview
-                binding.profilePic.setImageURI(imageUri)
-            } else {
-                // cancelled
-                makeText(this, "Cancelled", LENGTH_SHORT).show()
-            }
+            // set to imageview
+            binding.profilePic.setImageURI(imageUri)
+        } else {
+            // cancelled
+            makeText(this, "Cancelled", LENGTH_SHORT).show()
         }
-    )
+    }
 
 
     override fun onSupportNavigateUp(): Boolean {

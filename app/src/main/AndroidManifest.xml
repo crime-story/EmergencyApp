@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.lifeSavers.emergencyappsignup">
+    package="com.lifeSavers.emergencyapp">
     <!-- Internet Permission -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_ls_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.EmergencyAppSignUp">
+        android:theme="@style/Theme.EmergencyApp">
         <activity
             android:name=".ChatActivity"
             android:exported="false" />
@@ -36,7 +36,7 @@
             android:name=".MapActivity"
             android:exported="false"
             android:label="@string/title_activity_map"
-            android:theme="@style/Theme.EmergencyAppSignUp.NoActionBar" />
+            android:theme="@style/Theme.EmergencyApp.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
@@ -56,17 +56,15 @@
 
         <activity
             android:name=".GuidePage1"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".GuidePage2" />
-        <activity
-            android:name=".GuidePage3"/>
+        <activity android:name=".GuidePage2" />
+        <activity android:name=".GuidePage3" />
     </application>
 
 </manifest>

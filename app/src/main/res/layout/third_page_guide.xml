@@ -6,11 +6,10 @@
     tools:context=".GuidePage3">
 
     <TextView
-        android:id="@+id/titleLabelTv"
         android:layout_width="214dp"
         android:layout_height="206dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="100dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="60dp"
         android:background="@drawable/call_center" />
 
@@ -20,7 +19,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="300dp"
         android:padding="10dp"
-        android:text="We are here to help you!"
+        android:text="@string/we_are_here_to_help_you"
         android:textColor="#6666ff"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -30,8 +29,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="350dp"
+        android:gravity="center"
         android:padding="10dp"
-        android:text="     Open the chat and start a conversation\n          with us. We will help you with\n                         your problem!"
+        android:text="@string/third_page_guide_message"
         android:textColor="#6666ff"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -40,7 +40,7 @@
         android:id="@+id/LoginPageButton"
         android:layout_width="100dp"
         android:layout_height="60dp"
-        android:layout_marginLeft="260dp"
+        android:layout_marginStart="260dp"
         android:layout_marginTop="600dp"
-        android:text="Start" />
+        android:text="@string/start" />
 </RelativeLayout>

@@ -1,9 +1,8 @@
-package com.lifeSavers.emergencyappsignup
+package com.lifeSavers.emergencyapp
 
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.ContentValues.TAG
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -18,7 +17,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.lifeSavers.emergencyappsignup.databinding.ActivityLoginBinding
+import com.lifeSavers.emergencyapp.databinding.ActivityLoginBinding
 
 class LogInActivity : AppCompatActivity() {
     // ViewBinding
@@ -68,10 +67,10 @@ class LogInActivity : AppCompatActivity() {
             val view = layoutInflater.inflate(R.layout.dialog_forgot_password, null)
             val email = view.findViewById<EditText>(R.id.emailEt)
             builder.setView(view)
-            builder.setPositiveButton("Reset", DialogInterface.OnClickListener { _, _ ->
+            builder.setPositiveButton("Reset") { _, _ ->
                 forgotPassword(email)
-            })
-            builder.setNegativeButton("close", DialogInterface.OnClickListener { _, _ -> })
+            }
+            builder.setNegativeButton("close") { _, _ -> }
             builder.show()
         }
 
@@ -129,7 +128,7 @@ class LogInActivity : AppCompatActivity() {
                 if (firebaseUser.isEmailVerified) {
                     Toast.makeText(this, "LoggedIn as $email", Toast.LENGTH_SHORT).show()
 
-                    var database =
+                    val database =
                         FirebaseDatabase.getInstance("https://emergencyapp-3a6bd-default-rtdb.europe-west1.firebasedatabase.app/")
                             .getReference("Users")
 

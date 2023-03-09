@@ -1,4 +1,4 @@
-package com.lifeSavers.emergencyappsignup
+package com.lifeSavers.emergencyapp
 
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
@@ -17,9 +17,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
-import com.lifeSavers.emergencyappsignup.adapter.MessagesAdapter
-import com.lifeSavers.emergencyappsignup.databinding.ActivityChatBinding
-import com.lifeSavers.emergencyappsignup.model.Message
+import com.lifeSavers.emergencyapp.adapter.MessagesAdapter
+import com.lifeSavers.emergencyapp.databinding.ActivityChatBinding
+import com.lifeSavers.emergencyapp.model.Message
 import java.util.*
 
 class ChatActivity : AppCompatActivity() {
@@ -27,13 +27,13 @@ class ChatActivity : AppCompatActivity() {
     var binding: ActivityChatBinding? = null
     var adapter: MessagesAdapter? = null
     var messages: ArrayList<Message>? = null
-    var senderRoom: String? = null
-    var receiverRoom: String? = null
+    private var senderRoom: String? = null
+    private var receiverRoom: String? = null
     var database: FirebaseDatabase? = null
-    var storage: FirebaseStorage? = null
-    var dialog: ProgressDialog? = null
+    private var storage: FirebaseStorage? = null
+    private var dialog: ProgressDialog? = null
     var senderUid: String? = null
-    var receiverUid: String? = null
+    private var receiverUid: String? = null
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -53,11 +53,11 @@ class ChatActivity : AppCompatActivity() {
                                     val filePath = uri.toString()
                                     val messageTxt: String = binding!!.messageBox.text.toString()
                                     val date = Date()
-                                    val message = Message(messageTxt, senderUid, date.time)
+                                    val message = Message(messageTxt, senderUid)
                                     message.message = "photo"
                                     message.imageUrl = filePath
                                     binding!!.messageBox.setText("")
-                                    val randomkey = database!!.reference.push().key
+                                    val randomKey = database!!.reference.push().key
                                     val lastMsgObj = HashMap<String, Any>()
                                     lastMsgObj["lastMsg"] = message.message!!
                                     lastMsgObj["lastMsgTime"] = date.time
@@ -70,12 +70,12 @@ class ChatActivity : AppCompatActivity() {
                                     database!!.reference.child("Chats")
                                         .child(senderRoom!!)
                                         .child("Messages")
-                                        .child(randomkey!!)
+                                        .child(randomKey!!)
                                         .setValue(message).addOnSuccessListener {
                                             database!!.reference.child("Chats")
                                                 .child(receiverRoom!!)
                                                 .child("Messages")
-                                                .child(randomkey)
+                                                .child(randomKey)
                                                 .setValue(message)
                                                 .addOnSuccessListener { }
                                         }
@@ -123,7 +123,7 @@ class ChatActivity : AppCompatActivity() {
         Glide.with(this@ChatActivity).load(profile)
             .placeholder(R.drawable.profile_pic)
             .into(binding!!.profilePic01)
-        binding!!.imageView.setOnClickListener(View.OnClickListener { finish() })
+        binding!!.imageView.setOnClickListener { finish() }
         receiverUid = intent.getStringExtra("uid")
         senderUid = FirebaseAuth.getInstance().uid
         database!!.reference.child("Presence").child(receiverUid!!)
@@ -131,11 +131,11 @@ class ChatActivity : AppCompatActivity() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         val status = snapshot.getValue(String::class.java)
-                        if (!status!!.isEmpty()) {
+                        if (status!!.isNotEmpty()) {
                             if (status == "Offline") {
                                 binding!!.status.visibility = View.GONE
                             } else {
-                                binding!!.status.setText(status)
+                                binding!!.status.text = status
                                 binding!!.status.visibility = View.VISIBLE
                             }
                         }
@@ -168,10 +168,10 @@ class ChatActivity : AppCompatActivity() {
                 override fun onCancelled(error: DatabaseError) {}
             })
 
-        binding!!.send.setOnClickListener(View.OnClickListener {
+        binding!!.send.setOnClickListener {
             val messageTxt: String = binding!!.messageBox.text.toString()
             val date = Date()
-            val message = Message(messageTxt, senderUid, date.time)
+            val message = Message(messageTxt, senderUid)
 
             binding!!.messageBox.setText("")
             val randomKey = database!!.reference.push().key
@@ -194,14 +194,14 @@ class ChatActivity : AppCompatActivity() {
                         .child(randomKey)
                         .setValue(message).addOnSuccessListener { }
                 }
-        })
+        }
 
-        binding!!.attachment.setOnClickListener(View.OnClickListener {
+        binding!!.attachment.setOnClickListener {
             val intent = Intent()
             intent.action = Intent.ACTION_GET_CONTENT
             intent.type = "image/*"
             startActivityForResult(intent, 25)
-        })
+        }
 
         val handler = Handler()
         binding!!.messageBox.addTextChangedListener(object : TextWatcher {

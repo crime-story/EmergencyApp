@@ -1,4 +1,4 @@
-package com.lifeSavers.emergencyappsignup
+package com.lifeSavers.emergencyapp
 
 import android.content.ContentValues
 import android.content.Intent
@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.lifeSavers.emergencyappsignup.databinding.ActivityProfileBinding
-import com.lifeSavers.emergencyappsignup.model.User
+import com.lifeSavers.emergencyapp.databinding.ActivityProfileBinding
+import com.lifeSavers.emergencyapp.model.User
 
 class ProfileActivity : AppCompatActivity() {
     // ViewBinding
@@ -24,9 +24,6 @@ class ProfileActivity : AppCompatActivity() {
 
     // FirebaseAuth
     private lateinit var firebaseAuth: FirebaseAuth
-
-    private var email = ""
-    private var password = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,11 +68,11 @@ class ProfileActivity : AppCompatActivity() {
                     val yearOfBirth = userProfile.birthDate
                     val profileImage = userProfile.profileImage
 
-                    binding.nameUpEt.setText(name)
-                    binding.nameEt.setText(name)
-                    binding.emailEt.setText(email)
-                    binding.phoneNumberEt.setText(phoneNumber.toString())
-                    binding.birthDateEt.setText(yearOfBirth)
+                    binding.nameUpEt.text = name
+                    binding.nameEt.text = name
+                    binding.emailEt.text = email
+                    binding.phoneNumberEt.text = phoneNumber.toString()
+                    binding.birthDateEt.text = yearOfBirth
                     // set image
                     try {
                         Glide.with(this@ProfileActivity).load(profileImage)
@@ -121,40 +118,4 @@ class ProfileActivity : AppCompatActivity() {
         return super.onSupportNavigateUp()
     }
 
-    private fun loadUserInfo() {
-        val database =
-            FirebaseDatabase.getInstance("https://emergencyapp-3a6bd-default-rtdb.europe-west1.firebasedatabase.app/")
-                .getReference("Users")
-        database.child(firebaseAuth.uid!!)
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    // get user info
-                    val name = "${snapshot.child("name").value}"
-                    val email = "${snapshot.child("email").value}"
-                    val phoneNumber = "${snapshot.child("phoneNumber").value}"
-                    val birthDate = "${snapshot.child("birthDate").value}"
-                    val profileImage = "${snapshot.child("profileImage").value}"
-
-                    // set data
-                    binding.nameEt.text = name
-                    binding.emailEt.text = email
-                    binding.phoneNumberEt.text = phoneNumber
-                    binding.birthDateEt.text = birthDate
-
-                    // set image
-                    try {
-                        Glide.with(this@ProfileActivity).load(profileImage)
-                            .placeholder(R.drawable.profile_pic)
-                            .into(binding.profilePic)
-                    } catch (e: Exception) {
-
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-
-                }
-
-            })
-    }
 }

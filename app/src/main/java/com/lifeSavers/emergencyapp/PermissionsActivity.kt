@@ -1,4 +1,4 @@
-package com.lifeSavers.emergencyappsignup
+package com.lifeSavers.emergencyapp
 
 //import android.support.v4.content.ContextCompat
 //import android.support.v7.app.AlertDialog
@@ -9,7 +9,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -23,7 +22,7 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 
 class PermissionsActivity : AppCompatActivity() {
-    lateinit var btnGrant: Button
+    private lateinit var btnGrant: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_permissions)
@@ -37,7 +36,7 @@ class PermissionsActivity : AppCompatActivity() {
             return
         }
         btnGrant = findViewById(R.id.btn_grant)
-        btnGrant.setOnClickListener(View.OnClickListener {
+        btnGrant.setOnClickListener {
             Dexter.withActivity(this@PermissionsActivity)
                 .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 .withListener(object : PermissionListener {
@@ -75,6 +74,6 @@ class PermissionsActivity : AppCompatActivity() {
                     }
                 })
                 .check()
-        })
+        }
     }
 }

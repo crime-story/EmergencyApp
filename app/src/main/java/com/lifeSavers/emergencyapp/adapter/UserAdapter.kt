@@ -1,4 +1,4 @@
-package com.lifeSavers.emergencyappsignup.adapter
+package com.lifeSavers.emergencyapp.adapter
 
 import android.content.Context
 import android.content.Intent
@@ -7,19 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.lifeSavers.emergencyappsignup.ChatActivity
-import com.lifeSavers.emergencyappsignup.R
-import com.lifeSavers.emergencyappsignup.databinding.ItemProfileBinding
-import com.lifeSavers.emergencyappsignup.model.User
+import com.lifeSavers.emergencyapp.ChatActivity
+import com.lifeSavers.emergencyapp.R
+import com.lifeSavers.emergencyapp.databinding.ItemProfileBinding
+import com.lifeSavers.emergencyapp.model.User
 
-class UserAdapter(var context: Context, var usersList: ArrayList<User>) :
+class UserAdapter(var context: Context, private var usersList: ArrayList<User>) :
     RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding: ItemProfileBinding = ItemProfileBinding.bind(itemView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
-        var v = LayoutInflater.from(context).inflate(R.layout.item_profile, parent, false)
+        val v = LayoutInflater.from(context).inflate(R.layout.item_profile, parent, false)
         return UserViewHolder(v)
     }
 

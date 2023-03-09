@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:fontFamily="sans-serif-condensed"
-            android:text="Permission Request"
+            android:text="@string/permission_request"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
             android:gravity="center_horizontal"
-            android:text="Emergency App needs permission to acces device location to provide required services. Please allow the permission." />
+            android:text="@string/allow_permissions_location_message" />
 
     </LinearLayout>
 
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="@color/green"
-        android:text="Grant Permission"
+        android:text="@string/grant_permission"
         android:textAllCaps="false"
         android:textColor="#FFFFFF" />
 

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgroundimg_phones"
+    android:background="@drawable/background_img_phones"
 
     android:orientation="vertical"
     tools:context=".EmergencyPhoneNumbersActivity">
@@ -21,26 +21,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Emergency Phone Numbers"
+            android:text="@string/emergency_phone_numbers"
             android:textColor="#5b00e6"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/country"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Romania"
+            android:text="@string/romania"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/clickToView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Click a number to call"
-            android:textSize="10dp" />
+            android:text="@string/click_a_number_to_call"
+            android:textSize="11sp" />
 
         <View
             android:layout_width="match_parent"
@@ -68,9 +66,5 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="90dp"
         android:gravity="center"
-        android:orientation="vertical">
-
-    </LinearLayout>
-
-
+        android:orientation="vertical" />
 </LinearLayout>

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@drawable/backgroundimg_main"
+    android:background="@drawable/background_img_main"
     tools:context=".MainActivity">
 
 
@@ -14,7 +14,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="130dp"
         android:padding="10dp"
-        android:text="HOME"
+        android:text="@string/home"
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="30sp"
@@ -27,7 +27,7 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="84dp"
         android:layout_marginTop="10dp"
-        android:text="Profile" />
+        android:text="@string/profile" />
 
     <Button
         android:id="@+id/mapBtn"
@@ -37,7 +37,7 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="140dp"
         android:layout_marginTop="10dp"
-        android:text="Map" />
+        android:text="@string/map" />
 
     <Button
         android:id="@+id/phoneNumbersBtn"
@@ -47,7 +47,7 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="84dp"
         android:layout_marginTop="10dp"
-        android:text="Urgent call" />
+        android:text="@string/urgent_call" />
 
     <Button
         android:id="@+id/assistantsListBtn"
@@ -57,6 +57,6 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="84dp"
         android:layout_marginTop="10dp"
-        android:text="Assistants" />
+        android:text="@string/assistants" />
 
 </RelativeLayout>

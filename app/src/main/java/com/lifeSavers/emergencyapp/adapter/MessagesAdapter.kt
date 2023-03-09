@@ -1,4 +1,4 @@
-package com.lifeSavers.emergencyappsignup.adapter
+package com.lifeSavers.emergencyapp.adapter
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.lifeSavers.emergencyappsignup.R
-import com.lifeSavers.emergencyappsignup.databinding.DeleteLayoutBinding
-import com.lifeSavers.emergencyappsignup.databinding.ReceiveMsgBinding
-import com.lifeSavers.emergencyappsignup.databinding.SendMsgBinding
-import com.lifeSavers.emergencyappsignup.model.Message
+import com.lifeSavers.emergencyapp.R
+import com.lifeSavers.emergencyapp.databinding.DeleteLayoutBinding
+import com.lifeSavers.emergencyapp.databinding.ReceiveMsgBinding
+import com.lifeSavers.emergencyapp.databinding.SendMsgBinding
+import com.lifeSavers.emergencyapp.model.Message
 
 class MessagesAdapter(
     var context: Context,
@@ -22,14 +22,14 @@ class MessagesAdapter(
     senderRoom: String,
     receiverRoom: String
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder?>() {
-    lateinit var messages: ArrayList<Message>
-    val ITEM_SENT = 1
-    val ITEM_RECEIVE = 2
-    var senderRoom: String
-    var receiverRoom: String
+    private lateinit var messages: ArrayList<Message>
+    private val itemSent = 1
+    private val itemReceive = 2
+    private var senderRoom: String
+    private var receiverRoom: String
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == ITEM_SENT) {
+        return if (viewType == itemSent) {
             val view = LayoutInflater.from(context).inflate(R.layout.send_msg, parent, false)
             SentMsgHolder(view)
         } else {
@@ -42,9 +42,9 @@ class MessagesAdapter(
     override fun getItemViewType(position: Int): Int {
         val message: Message = messages[position]
         return if (FirebaseAuth.getInstance().uid == message.senderId) {
-            ITEM_SENT
+            itemSent
         } else {
-            ITEM_RECEIVE
+            itemReceive
         }
     }
 
@@ -74,7 +74,7 @@ class MessagesAdapter(
                     .setView(binding.root)
                     .create()
 
-                binding.everyone.setOnClickListener(View.OnClickListener {
+                binding.everyone.setOnClickListener {
                     message.message = "This message is removed."
                     message.messageId?.let { it1 ->
                         FirebaseDatabase.getInstance("https://emergencyapp-3a6bd-default-rtdb.europe-west1.firebasedatabase.app/")
@@ -91,8 +91,8 @@ class MessagesAdapter(
                             .child(it1).setValue(message)
                     }
                     dialog.dismiss()
-                })
-                binding.delete.setOnClickListener(View.OnClickListener {
+                }
+                binding.delete.setOnClickListener {
                     message.messageId?.let { it1 ->
                         FirebaseDatabase.getInstance("https://emergencyapp-3a6bd-default-rtdb.europe-west1.firebasedatabase.app/")
                             .reference.child("Chats")
@@ -101,8 +101,8 @@ class MessagesAdapter(
                             .child(it1).setValue(null)
                     }
                     dialog.dismiss()
-                })
-                binding.cancel.setOnClickListener(View.OnClickListener { dialog.dismiss() })
+                }
+                binding.cancel.setOnClickListener { dialog.dismiss() }
                 dialog.show()
                 false
             }
@@ -157,7 +157,7 @@ class MessagesAdapter(
                     }
                     dialog.dismiss()
                 }
-                binding.cancel.setOnClickListener(View.OnClickListener { dialog.dismiss() })
+                binding.cancel.setOnClickListener { dialog.dismiss() }
                 dialog.show()
                 false
             }

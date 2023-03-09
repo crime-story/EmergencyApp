@@ -1,4 +1,4 @@
-package com.lifeSavers.emergencyappsignup
+package com.lifeSavers.emergencyapp
 
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
@@ -11,17 +11,17 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.lifeSavers.emergencyappsignup.adapter.UserAdapter
-import com.lifeSavers.emergencyappsignup.databinding.ActivityAssistantsListForUsersBinding
-import com.lifeSavers.emergencyappsignup.model.User
+import com.lifeSavers.emergencyapp.adapter.UserAdapter
+import com.lifeSavers.emergencyapp.databinding.ActivityAssistantsListForUsersBinding
+import com.lifeSavers.emergencyapp.model.User
 
 class AssistantsListForUsersActivity : AppCompatActivity() {
 
     var binding: ActivityAssistantsListForUsersBinding? = null
-    var database: FirebaseDatabase? = null
+    private var database: FirebaseDatabase? = null
     var users: ArrayList<User>? = null
     var usersAdapter: UserAdapter? = null
-    var dialog: ProgressDialog? = null
+    private var dialog: ProgressDialog? = null
     var user: User? = null
 
     // ActionBar
@@ -43,7 +43,7 @@ class AssistantsListForUsersActivity : AppCompatActivity() {
         dialog!!.setCancelable(false)
         database =
             FirebaseDatabase.getInstance("https://emergencyapp-3a6bd-default-rtdb.europe-west1.firebasedatabase.app/")
-        users = ArrayList<User>()
+        users = ArrayList()
         usersAdapter = UserAdapter(this@AssistantsListForUsersActivity, users!!)
         val layoutManager = GridLayoutManager(this@AssistantsListForUsersActivity, 2)
         binding!!.mRec.layoutManager = layoutManager

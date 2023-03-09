@@ -1,4 +1,4 @@
-package com.lifeSavers.emergencyappsignup.model
+package com.lifeSavers.emergencyapp.model
 
 data class User(
     val uid: String? = null,
