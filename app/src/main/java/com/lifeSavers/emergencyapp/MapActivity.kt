@@ -36,7 +36,6 @@ import com.mancj.materialsearchbar.MaterialSearchBar
 import com.mancj.materialsearchbar.MaterialSearchBar.OnSearchActionListener
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter
 import com.skyfishjy.library.RippleBackground
-import java.util.*
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var mMap: GoogleMap

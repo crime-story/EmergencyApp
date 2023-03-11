@@ -1,14 +1,21 @@
 package com.lifeSavers.emergencyapp
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.os.Handler
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -20,9 +27,12 @@ import com.google.firebase.storage.FirebaseStorage
 import com.lifeSavers.emergencyapp.adapter.MessagesAdapter
 import com.lifeSavers.emergencyapp.databinding.ActivityChatBinding
 import com.lifeSavers.emergencyapp.model.Message
+import java.io.File
+import java.io.IOException
 import java.util.*
 
 class ChatActivity : AppCompatActivity() {
+    val REQUEST_TAKE_PHOTO = 1
 
     var binding: ActivityChatBinding? = null
     var adapter: MessagesAdapter? = null
@@ -34,6 +44,7 @@ class ChatActivity : AppCompatActivity() {
     private var dialog: ProgressDialog? = null
     var senderUid: String? = null
     private var receiverUid: String? = null
+    lateinit var photoPath: String
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -84,6 +95,48 @@ class ChatActivity : AppCompatActivity() {
                         }
                 }
             }
+        } else if (requestCode == 1 && resultCode == RESULT_OK) {
+            val calendar = Calendar.getInstance()
+            val reference = storage!!.reference.child("Chats")
+                .child(calendar.timeInMillis.toString() + "")
+            dialog!!.show()
+            reference.putFile(Uri.fromFile(File(photoPath)))
+                .addOnCompleteListener { task ->
+                    dialog!!.dismiss()
+                    if (task.isSuccessful) {
+                        reference.downloadUrl.addOnSuccessListener { uri ->
+                            val filePath = uri.toString()
+                            val messageTxt: String = binding!!.messageBox.text.toString()
+                            val date = Date()
+                            val message = Message(messageTxt, senderUid)
+                            message.message = "photo"
+                            message.imageUrl = filePath
+                            binding!!.messageBox.setText("")
+                            val randomKey = database!!.reference.push().key
+                            val lastMsgObj = HashMap<String, Any>()
+                            lastMsgObj["lastMsg"] = message.message!!
+                            lastMsgObj["lastMsgTime"] = date.time
+                            database!!.reference.child("Chats")
+                                .child(senderRoom!!)
+                                .updateChildren(lastMsgObj)
+                            database!!.reference.child("Chats")
+                                .child(receiverRoom!!)
+                                .updateChildren(lastMsgObj)
+                            database!!.reference.child("Chats")
+                                .child(senderRoom!!)
+                                .child("Messages")
+                                .child(randomKey!!)
+                                .setValue(message).addOnSuccessListener {
+                                    database!!.reference.child("Chats")
+                                        .child(receiverRoom!!)
+                                        .child("Messages")
+                                        .child(randomKey)
+                                        .setValue(message)
+                                        .addOnSuccessListener { }
+                                }
+                        }
+                    }
+                }
         }
     }
 
@@ -170,6 +223,9 @@ class ChatActivity : AppCompatActivity() {
 
         binding!!.send.setOnClickListener {
             val messageTxt: String = binding!!.messageBox.text.toString()
+            if (messageTxt.isEmpty()) {
+                return@setOnClickListener
+            }
             val date = Date()
             val message = Message(messageTxt, senderUid)
 
@@ -203,6 +259,36 @@ class ChatActivity : AppCompatActivity() {
             startActivityForResult(intent, 25)
         }
 
+        binding!!.camera.setOnClickListener {
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.CAMERA
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.CAMERA),
+                    REQUEST_TAKE_PHOTO
+                )
+            } else {
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                var photoFile: File? = null
+                try {
+                    photoFile = createImageFile()
+                } catch (e: IOException) {}
+                if (photoFile != null) {
+                    val photoUri = FileProvider.getUriForFile(
+                        this,
+                        "com.example.android.provider",
+                        photoFile
+                    )
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+                    startActivityForResult(intent, REQUEST_TAKE_PHOTO)
+                }
+            }
+        }
+
+
         val handler = Handler()
         binding!!.messageBox.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -223,5 +309,17 @@ class ChatActivity : AppCompatActivity() {
         })
 
 //        supportActionBar?.setDisplayShowTitleEnabled(false)
+    }
+
+    private fun createImageFile(): File? {
+        val fileName = "pic"
+        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val image = File.createTempFile(
+            fileName,
+            ".jpg",
+            storageDir
+        )
+        photoPath = image.absolutePath
+        return image
     }
 }
