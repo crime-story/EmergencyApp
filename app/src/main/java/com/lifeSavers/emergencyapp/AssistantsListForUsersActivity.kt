@@ -2,6 +2,7 @@ package com.lifeSavers.emergencyapp
 
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
@@ -45,8 +46,14 @@ class AssistantsListForUsersActivity : AppCompatActivity() {
             FirebaseDatabase.getInstance("https://emergencyapp-3a6bd-default-rtdb.europe-west1.firebasedatabase.app/")
         users = ArrayList()
         usersAdapter = UserAdapter(this@AssistantsListForUsersActivity, users!!)
-        val layoutManager = GridLayoutManager(this@AssistantsListForUsersActivity, 2)
-        binding!!.mRec.layoutManager = layoutManager
+
+        val layoutManagerPortrait = GridLayoutManager(this@AssistantsListForUsersActivity, 2)
+        val layoutManagerLandscape = GridLayoutManager(this@AssistantsListForUsersActivity, 3)
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding!!.mRec.layoutManager = layoutManagerLandscape
+        } else {
+            binding!!.mRec.layoutManager = layoutManagerPortrait
+        }
         database!!.reference.child("Users")
             .child(FirebaseAuth.getInstance().uid!!)
             .addValueEventListener(object : ValueEventListener {
