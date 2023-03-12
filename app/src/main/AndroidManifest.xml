@@ -22,12 +22,15 @@
         <activity
             android:name=".ChatActivity"
             android:exported="false" />
+
         <activity
             android:name=".AssistantsListForUsersActivity"
             android:exported="false" />
+
         <activity
             android:name=".EmergencyPhoneNumbersActivity"
             android:exported="false" />
+
         <activity
             android:name=".ProfileEditActivity"
             android:exported="false" />
@@ -41,15 +44,22 @@
             android:exported="false"
             android:label="@string/title_activity_map"
             android:theme="@style/Theme.EmergencyApp.NoActionBar" />
+
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+
         <activity
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity
             android:name=".LogInActivity"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".SignUpActivity"
@@ -60,14 +70,10 @@
 
         <activity
             android:name=".GuidePage1"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity android:name=".GuidePage2" />
+
         <activity android:name=".GuidePage3" />
 
         <provider
