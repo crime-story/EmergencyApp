@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
@@ -131,8 +132,15 @@ class SignUpActivity : AppCompatActivity() {
                             FirebaseDatabase.getInstance("https://emergencyapp-3a6bd-default-rtdb.europe-west1.firebasedatabase.app/")
                                 .getReference("Users")
 
+                        val deviceToken = getSharedPreferences("com.lifeSavers.emergencyapp", MODE_PRIVATE).getString("device_token", null)
+                        Log.d("device_token", "SHOULD BE LOGGED1")
+                        Log.d("device_token", deviceToken!!)
+                        Log.d("device_token", "SHOULD BE LOGGED2")
+
                         val user =
-                            User(firebaseUser.uid, name1, email1, phoneNumber1, birthDate1, 0, "")
+                            User(firebaseUser.uid, name1, email1, phoneNumber1, birthDate1, 0, "",
+                                deviceToken
+                            )
                         database.child(firebaseUser.uid)
                             .setValue(user) // adds on Database a new registered user
                             .addOnSuccessListener {

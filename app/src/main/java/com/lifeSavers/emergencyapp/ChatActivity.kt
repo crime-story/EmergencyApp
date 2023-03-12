@@ -12,6 +12,7 @@ import android.os.Handler
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -23,9 +24,13 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.RemoteMessage
 import com.google.firebase.storage.FirebaseStorage
 import com.lifeSavers.emergencyapp.adapter.MessagesAdapter
 import com.lifeSavers.emergencyapp.databinding.ActivityChatBinding
+import com.lifeSavers.emergencyapp.firebase.MyFirebaseMessagingService
 import com.lifeSavers.emergencyapp.model.Message
 import java.io.File
 import java.io.IOException
@@ -249,6 +254,16 @@ class ChatActivity : AppCompatActivity() {
                         .child("Messages")
                         .child(randomKey)
                         .setValue(message).addOnSuccessListener { }
+                    val senderNameRef = database!!.reference.child("Users").child(senderUid!!)
+                        .child("name")
+                    senderNameRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            val senderName = dataSnapshot.value.toString()
+//                            MyFirebaseMessagingService().sendNotification(receiverUid!!)
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {}
+                    })
                 }
         }
 
@@ -292,7 +307,9 @@ class ChatActivity : AppCompatActivity() {
         val handler = Handler()
         binding!!.messageBox.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                binding!!.send.isEnabled = p0.toString().trim().isNotEmpty()
+            }
             override fun afterTextChanged(p0: Editable?) {
                 database!!.reference.child("Presence")
                     .child(senderUid!!)
