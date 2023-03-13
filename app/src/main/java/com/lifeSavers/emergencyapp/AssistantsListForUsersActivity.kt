@@ -106,17 +106,17 @@ class AssistantsListForUsersActivity : AppCompatActivity() {
 
     private fun filterList(query: String?) {
         if (query != null) {
-            val filteredList = ArrayList<User>()
+            var filteredList = ArrayList<User>()
             for (i in users!!) {
                 if (i.name?.toLowerCase(Locale.ROOT)!!.contains(query)) {
                     filteredList.add(i)
                 }
             }
             if (filteredList.isEmpty()) {
-                Toast.makeText(this, "No data found", Toast.LENGTH_SHORT).show()
-            } else {
-                usersAdapter!!.setFilteredList(filteredList)
+                filteredList = ArrayList()
+                Toast.makeText(this, "No assistants found", Toast.LENGTH_SHORT).show()
             }
+            usersAdapter!!.setFilteredList(filteredList)
         }
     }
 
