@@ -52,8 +52,9 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mRec"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             tools:listitem="@layout/item_profile" />
     </LinearLayout>
 

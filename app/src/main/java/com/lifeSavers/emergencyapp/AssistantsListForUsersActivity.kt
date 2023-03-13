@@ -2,7 +2,10 @@ package com.lifeSavers.emergencyapp
 
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
+import android.content.res.Configuration
 import android.os.Bundle
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,11 +17,14 @@ import com.google.firebase.database.ValueEventListener
 import com.lifeSavers.emergencyapp.adapter.UserAdapter
 import com.lifeSavers.emergencyapp.databinding.ActivityAssistantsListForUsersBinding
 import com.lifeSavers.emergencyapp.model.User
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AssistantsListForUsersActivity : AppCompatActivity() {
 
     var binding: ActivityAssistantsListForUsersBinding? = null
     private var database: FirebaseDatabase? = null
+    private var searchView: SearchView? = null
     var users: ArrayList<User>? = null
     var usersAdapter: UserAdapter? = null
     private var dialog: ProgressDialog? = null
@@ -45,8 +51,14 @@ class AssistantsListForUsersActivity : AppCompatActivity() {
             FirebaseDatabase.getInstance("https://emergencyapp-3a6bd-default-rtdb.europe-west1.firebasedatabase.app/")
         users = ArrayList()
         usersAdapter = UserAdapter(this@AssistantsListForUsersActivity, users!!)
-        val layoutManager = GridLayoutManager(this@AssistantsListForUsersActivity, 2)
-        binding!!.mRec.layoutManager = layoutManager
+
+        val layoutManagerPortrait = GridLayoutManager(this@AssistantsListForUsersActivity, 2)
+        val layoutManagerLandscape = GridLayoutManager(this@AssistantsListForUsersActivity, 3)
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding!!.mRec.layoutManager = layoutManagerLandscape
+        } else {
+            binding!!.mRec.layoutManager = layoutManagerPortrait
+        }
         database!!.reference.child("Users")
             .child(FirebaseAuth.getInstance().uid!!)
             .addValueEventListener(object : ValueEventListener {
@@ -58,6 +70,21 @@ class AssistantsListForUsersActivity : AppCompatActivity() {
 
             })
         binding!!.mRec.adapter = usersAdapter
+
+        searchView = findViewById(R.id.searchView)
+
+        searchView!!.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(newText: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterList(newText?.lowercase())
+                return true
+            }
+
+        })
+
         database!!.reference.child("Users").addValueEventListener(object : ValueEventListener {
             @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -75,6 +102,22 @@ class AssistantsListForUsersActivity : AppCompatActivity() {
             override fun onCancelled(error: DatabaseError) {}
 
         })
+    }
+
+    private fun filterList(query: String?) {
+        if (query != null) {
+            var filteredList = ArrayList<User>()
+            for (i in users!!) {
+                if (i.name?.toLowerCase(Locale.ROOT)!!.contains(query)) {
+                    filteredList.add(i)
+                }
+            }
+            if (filteredList.isEmpty()) {
+                filteredList = ArrayList()
+                Toast.makeText(this, "No assistants found", Toast.LENGTH_SHORT).show()
+            }
+            usersAdapter!!.setFilteredList(filteredList)
+        }
     }
 
     override fun onResume() {

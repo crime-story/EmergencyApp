@@ -94,8 +94,6 @@ class ProfileActivity : AppCompatActivity() {
         if (firebaseUser != null) {
             database.child(firebaseUser.uid).addListenerForSingleValueEvent(postListener)
         }
-
-
     }
 
     private fun checkUser() {
