@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:queryHint="Search for an assistant..."
             android:iconifiedByDefault="false"
-            android:background="@drawable/searchview_background"
+            android:background="@drawable/search_view_background"
             android:queryBackground="@android:color/transparent"/>
 
         <androidx.recyclerview.widget.RecyclerView

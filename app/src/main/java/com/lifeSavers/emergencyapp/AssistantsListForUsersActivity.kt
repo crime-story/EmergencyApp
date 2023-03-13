@@ -108,7 +108,7 @@ class AssistantsListForUsersActivity : AppCompatActivity() {
         if (query != null) {
             var filteredList = ArrayList<User>()
             for (i in users!!) {
-                if (i.name?.toLowerCase(Locale.ROOT)!!.contains(query)) {
+                if (i.name?.lowercase(Locale.ROOT)!!.contains(query)) {
                     filteredList.add(i)
                 }
             }
