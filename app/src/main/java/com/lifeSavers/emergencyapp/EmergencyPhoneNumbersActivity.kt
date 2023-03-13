@@ -6,20 +6,26 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.google.firebase.database.*
 
 class EmergencyPhoneNumbersActivity : AppCompatActivity() {
 
+    private lateinit var listView: ListView
     private var phoneNumber = "123"
 
     private val requestPhoneCall = 1
 
     // ActionBar
     private lateinit var actionBar: ActionBar
+
+    private lateinit var databaseReference: DatabaseReference
+    private lateinit var phoneNumbersMap: MutableMap<String, String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,59 +37,64 @@ class EmergencyPhoneNumbersActivity : AppCompatActivity() {
         actionBar.setDisplayHomeAsUpEnabled(true)
         actionBar.setDisplayShowHomeEnabled(true)
 
-        val listView = findViewById<ListView>(R.id.listView)
-        val names = arrayOf(
-            "Single Emergency Call Number",
-            "Emergency SMS (only for registered people)",
-            "Child's phone",
-            "Consumers Protection",
-            "Border Police",
-            "Romanian Automotive Register (RAR) - Appointments and Information",
-            "Ministry of Public Finance - Consumers phone",
-            "Green line anti-corruption",
-            "National Sanitary Veterinary and Food Safety Authority",
-            "National Tourism Authority - Consumers phone",
-            "National Energy Regulatory Authority",
-            "National Company of Highways and National Roads in Romania - Information and Vignette"
-        )
-        val arrayAdapter: ArrayAdapter<String> =
-            ArrayAdapter(this, android.R.layout.simple_list_item_1, names)
+        listView = findViewById(R.id.listView)
 
-        val phoneNumbers = arrayOf(
-            "112", "113", "119", "+40219551", "+40219590", "+40219672", "+40800800085",
-            "+40800806806", "+40800826787", "+40800868282", "+40213278153", "+40212643344"
-        )
+        databaseReference = FirebaseDatabase.getInstance().reference.child("PhoneNumbers")
 
-        listView.adapter = arrayAdapter
+        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val names = ArrayList<String>()
+                phoneNumbersMap = mutableMapOf()
 
+                for (ds in snapshot.children) {
+                    val name = ds.key.toString().removeSurrounding("\"")
+                    val phoneNumber = ds.value.toString()
 
-        listView.setOnItemClickListener { adapterView, view, i, l ->
-            //Toast.makeText(this, "Item selected " + phoneNumbers[i], Toast.LENGTH_LONG).show()
+                    names.add(name)
+                    phoneNumbersMap[name] = phoneNumber
+                }
 
-            if (ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.CALL_PHONE
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.CALL_PHONE),
-                    requestPhoneCall
-                )
-            } else {
-                phoneNumber = phoneNumbers[i]
-                startCall()
+                val arrayAdapter: ArrayAdapter<String> =
+                    ArrayAdapter(
+                        this@EmergencyPhoneNumbersActivity,
+                        android.R.layout.simple_list_item_1,
+                        names
+                    )
+
+                listView.adapter = arrayAdapter
             }
 
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+
+        listView.setOnItemClickListener { _, _, position, _ ->
+            val name = listView.getItemAtPosition(position).toString()
+            val phoneNumber = phoneNumbersMap[name]
+
+            if (phoneNumber != null) {
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.CALL_PHONE
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(Manifest.permission.CALL_PHONE),
+                        requestPhoneCall
+                    )
+                } else {
+                    this.phoneNumber = phoneNumber
+                    startCall()
+                }
+            }
         }
     }
 
     @SuppressLint("MissingPermission")
     private fun startCall() {
         val callIntent = Intent(Intent.ACTION_CALL)
-
         callIntent.data = Uri.parse("tel: $phoneNumber")
-
         startActivity(callIntent)
     }
 

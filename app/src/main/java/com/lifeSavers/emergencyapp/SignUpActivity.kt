@@ -158,7 +158,7 @@ class SignUpActivity : AppCompatActivity() {
                                 firebaseAuth.signOut()
 
                                 // go to login page
-                                startActivity(Intent(this, LogInActivity::class.java))
+                                startActivity(Intent(this, ConfirmEmailActivity::class.java))
                                 finish()
                             }
                             .addOnFailureListener {

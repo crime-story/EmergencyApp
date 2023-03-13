@@ -57,4 +57,9 @@
     <string name="attach">Attach</string>
     <string name="open_camera">Open camera</string>
     <string name="send_message">Send message</string>
+    <string name="check_email_for_verification_message">Account created.\nCheck your email for verification</string>
+    <string name="launch_email_app">Launch Email App</string>
+    <string name="open_gmail">Open Gmail</string>
+    <string name="open_outlook">Open Outlook</string>
+    <string name="go_to_login_page">Go to Login page</string>
 </resources>
