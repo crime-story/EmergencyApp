@@ -7,7 +7,6 @@
     android:background="@drawable/background_img_main"
     tools:context=".MainActivity">
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,5 +57,18 @@
         android:layout_marginStart="84dp"
         android:layout_marginTop="10dp"
         android:text="@string/assistants" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/shareBtn"
+        android:layout_width="197dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/assistantsListBtn"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="65dp"
+        android:drawableLeft="@drawable/ic_baseline_share_24"
+        android:text="Share the app"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/red" />
 
 </RelativeLayout>
