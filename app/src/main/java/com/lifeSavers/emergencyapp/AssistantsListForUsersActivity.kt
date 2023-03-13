@@ -79,7 +79,7 @@ class AssistantsListForUsersActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                filterList(newText)
+                filterList(newText?.lowercase())
                 return true
             }
 
