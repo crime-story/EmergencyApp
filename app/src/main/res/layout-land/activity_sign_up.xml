@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_img"
+    android:background="@drawable/background_img_landscape"
     tools:context=".SignUpActivity">
 
     <LinearLayout
@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical"
+        android:layout_marginTop="120dp"
         android:padding="20dp">
 
         <TextView
