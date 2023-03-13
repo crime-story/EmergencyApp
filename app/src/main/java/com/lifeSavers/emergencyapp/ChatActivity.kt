@@ -275,7 +275,8 @@ class ChatActivity : AppCompatActivity() {
                 var photoFile: File? = null
                 try {
                     photoFile = createImageFile()
-                } catch (e: IOException) {}
+                } catch (e: IOException) {
+                }
                 if (photoFile != null) {
                     val photoUri = FileProvider.getUriForFile(
                         this,
