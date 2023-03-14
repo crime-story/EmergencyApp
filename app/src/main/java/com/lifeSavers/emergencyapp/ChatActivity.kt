@@ -32,6 +32,7 @@ import java.io.File
 import java.io.IOException
 import java.util.*
 
+
 class ChatActivity : AppCompatActivity() {
     private val requestTakePhoto = 1
 
@@ -202,8 +203,12 @@ class ChatActivity : AppCompatActivity() {
         receiverRoom = receiverUid + senderUid
         adapter = MessagesAdapter(this, messages, senderRoom!!, receiverRoom!!)
 
-        binding!!.recyclerView.layoutManager = LinearLayoutManager(this)
+        val linearLayoutManager = LinearLayoutManager(this)
+        linearLayoutManager.stackFromEnd = true
+        linearLayoutManager.scrollToPositionWithOffset(0, 100)
+        binding!!.recyclerView.layoutManager = linearLayoutManager
         binding!!.recyclerView.adapter = adapter
+
         database!!.reference.child("Chats")
             .child(senderRoom!!)
             .child("Messages")
@@ -216,6 +221,7 @@ class ChatActivity : AppCompatActivity() {
                         message!!.messageId = snapshot1.key
                         messages!!.add(message)
                     }
+                    linearLayoutManager.smoothScrollToPosition(binding!!.recyclerView, null, adapter!!.itemCount)
                     adapter!!.notifyDataSetChanged()
                 }
 
@@ -255,9 +261,18 @@ class ChatActivity : AppCompatActivity() {
                     senderNameRef.addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             val senderName = dataSnapshot.value.toString()
-                            MyFirebaseMessagingService().sendNotification(receiverUid!!, senderName,
-                                profile!!
-                            )
+                            val profilePicRef = database!!.reference.child("Users").child(senderUid!!).child("profileImage")
+                            profilePicRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    val senderProfilePic = snapshot.value.toString()
+                                    MyFirebaseMessagingService().sendNotification(senderUid!!, receiverUid!!, senderName,
+                                        senderProfilePic
+                                    )
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+                                }
+                            })
                         }
 
                         override fun onCancelled(databaseError: DatabaseError) {}
@@ -323,8 +338,6 @@ class ChatActivity : AppCompatActivity() {
                     .setValue("Online")
             }
         })
-
-//        supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
     private fun createImageFile(): File? {

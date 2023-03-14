@@ -61,27 +61,27 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private fun showNotification(
         title: String?,
         message: String?,
-        receiverUid: String,
+        senderUid: String,
         senderName: String,
         senderImage: String
     ) {
         val intent = Intent(this, ChatActivity::class.java)
         intent.putExtra("name", senderName)
         intent.putExtra("image", senderImage)
-        intent.putExtra("uid", receiverUid)
+        intent.putExtra("uid", senderUid)
 
-        val channel_id = "notification_channel"
+        val channelId = "notification_channel"
         // FLAG_ACTIVITY_CLEAR_TOP = clear activities present in the activity stack
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(
             this,
             0,
             intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
         val builder: NotificationCompat.Builder =
-            NotificationCompat.Builder(applicationContext, channel_id)
+            NotificationCompat.Builder(applicationContext, channelId)
                 .setSmallIcon(R.mipmap.ic_launcher_ls_round)
                 .setContentTitle(title)
                 .setContentText(message)
@@ -95,13 +95,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // check Android >= Oreo
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel =
-                NotificationChannel(channel_id, "web_app", NotificationManager.IMPORTANCE_HIGH)
+                NotificationChannel(channelId, "Emergency App", NotificationManager.IMPORTANCE_HIGH)
             notificationManager.createNotificationChannel(notificationChannel)
         }
         notificationManager.notify(0, builder.build())
     }
 
     fun sendNotification(
+        senderUid: String,
         receiverUid: String,
         senderName: String,
         senderImage: String
@@ -141,7 +142,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                             data.put("content", "You got a new message from $senderName")
                             data.put("name", senderName)
                             data.put("image", senderImage)
-                            data.put("uid", receiverUid)
+                            data.put("uid", senderUid)
 
                             val body = JSONObject()
                             body.put("data", data)
