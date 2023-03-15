@@ -131,7 +131,11 @@ class LogInActivity : AppCompatActivity() {
                     val database =
                         FirebaseDatabase.getInstance("https://emergencyapp-3a6bd-default-rtdb.europe-west1.firebasedatabase.app/")
                             .getReference("Users")
-                    val deviceToken = getSharedPreferences("com.lifeSavers.emergencyapp", MODE_PRIVATE).getString("device_token", null)
+                    val deviceToken =
+                        getSharedPreferences("com.lifeSavers.emergencyapp", MODE_PRIVATE).getString(
+                            "device_token",
+                            null
+                        )
 
                     firebaseUser.uid.let { uid ->
                         database.child(uid).child("deviceToken").setValue(deviceToken)
