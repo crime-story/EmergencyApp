@@ -16,12 +16,32 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
+        <
+
+        <
+
+        <
+
+        <
+
+        <
+
+        <
+
+        < HEAD
             android:layout_marginTop="20dp"
             android:text="@string/get_help_from_our_life_savers"
             android:textAlignment="center"
             android:textColor="@color/main_color"
             android:textSize="25sp"
             android:textStyle="normal|bold" />
+        =======
+        android:queryHint="Search for an assistant..."
+        android:iconifiedByDefault="false"
+        android:background="@drawable/search_view_background"
+        android:queryBackground="@android:color/transparent"/>
+        >>>>>>> main
 
         <TextView
             android:layout_width="match_parent"
@@ -53,7 +73,7 @@
                 android:queryHint="Search for an assistant..."
                 android:iconifiedByDefault="false"
                 android:background="@drawable/searchview_background"
-                android:queryBackground="@android:color/transparent"/>
+                android:queryBackground="@android:color/transparent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/mRec"
@@ -71,6 +91,6 @@
         app:headerLayout="@navigation/nav_header"
         app:menu="@menu/nav_menu"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"/>
+        android:fitsSystemWindows="true" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

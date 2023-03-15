@@ -26,13 +26,15 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.lifeSavers.emergencyapp.adapter.MessagesAdapter
 import com.lifeSavers.emergencyapp.databinding.ActivityChatBinding
+import com.lifeSavers.emergencyapp.firebaseNotification.MyFirebaseMessagingService
 import com.lifeSavers.emergencyapp.model.Message
 import java.io.File
 import java.io.IOException
 import java.util.*
 
+
 class ChatActivity : AppCompatActivity() {
-    val REQUEST_TAKE_PHOTO = 1
+    private val requestTakePhoto = 1
 
     var binding: ActivityChatBinding? = null
     var adapter: MessagesAdapter? = null
@@ -44,7 +46,7 @@ class ChatActivity : AppCompatActivity() {
     private var dialog: ProgressDialog? = null
     var senderUid: String? = null
     private var receiverUid: String? = null
-    lateinit var photoPath: String
+    private lateinit var photoPath: String
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -201,8 +203,12 @@ class ChatActivity : AppCompatActivity() {
         receiverRoom = receiverUid + senderUid
         adapter = MessagesAdapter(this, messages, senderRoom!!, receiverRoom!!)
 
-        binding!!.recyclerView.layoutManager = LinearLayoutManager(this)
+        val linearLayoutManager = LinearLayoutManager(this)
+        linearLayoutManager.stackFromEnd = true
+        linearLayoutManager.scrollToPositionWithOffset(0, 100)
+        binding!!.recyclerView.layoutManager = linearLayoutManager
         binding!!.recyclerView.adapter = adapter
+
         database!!.reference.child("Chats")
             .child(senderRoom!!)
             .child("Messages")
@@ -215,6 +221,7 @@ class ChatActivity : AppCompatActivity() {
                         message!!.messageId = snapshot1.key
                         messages!!.add(message)
                     }
+                    linearLayoutManager.smoothScrollToPosition(binding!!.recyclerView, null, adapter!!.itemCount)
                     adapter!!.notifyDataSetChanged()
                 }
 
@@ -249,6 +256,27 @@ class ChatActivity : AppCompatActivity() {
                         .child("Messages")
                         .child(randomKey)
                         .setValue(message).addOnSuccessListener { }
+                    val senderNameRef = database!!.reference.child("Users").child(senderUid!!)
+                        .child("name")
+                    senderNameRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            val senderName = dataSnapshot.value.toString()
+                            val profilePicRef = database!!.reference.child("Users").child(senderUid!!).child("profileImage")
+                            profilePicRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    val senderProfilePic = snapshot.value.toString()
+                                    MyFirebaseMessagingService().sendNotification(senderUid!!, receiverUid!!, senderName,
+                                        senderProfilePic
+                                    )
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+                                }
+                            })
+                        }
+
+                        override fun onCancelled(databaseError: DatabaseError) {}
+                    })
                 }
         }
 
@@ -268,7 +296,7 @@ class ChatActivity : AppCompatActivity() {
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(Manifest.permission.CAMERA),
-                    REQUEST_TAKE_PHOTO
+                    requestTakePhoto
                 )
             } else {
                 val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -284,7 +312,7 @@ class ChatActivity : AppCompatActivity() {
                         photoFile
                     )
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-                    startActivityForResult(intent, REQUEST_TAKE_PHOTO)
+                    startActivityForResult(intent, requestTakePhoto)
                 }
             }
         }
@@ -293,7 +321,9 @@ class ChatActivity : AppCompatActivity() {
         val handler = Handler()
         binding!!.messageBox.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                binding!!.send.isEnabled = p0.toString().trim().isNotEmpty()
+            }
             override fun afterTextChanged(p0: Editable?) {
                 database!!.reference.child("Presence")
                     .child(senderUid!!)
@@ -308,8 +338,6 @@ class ChatActivity : AppCompatActivity() {
                     .setValue("Online")
             }
         })
-
-//        supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
     private fun createImageFile(): File? {

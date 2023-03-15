@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.ListView
@@ -75,7 +74,7 @@ class EmergencyPhoneNumbersActivity : AppCompatActivity() {
         actionBar.setDisplayHomeAsUpEnabled(true)
 
         navView.setNavigationItemSelectedListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.nav_assistants -> {
                     startActivity(Intent(this, AssistantsListForUsersActivity::class.java))
                 }

@@ -126,11 +126,22 @@ class LogInActivity : AppCompatActivity() {
                 val email = firebaseUser!!.email
 
                 if (firebaseUser.isEmailVerified) {
-                    Toast.makeText(this, "LoggedIn as $email", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Logged in as $email", Toast.LENGTH_SHORT).show()
 
                     val database =
                         FirebaseDatabase.getInstance("https://emergencyapp-3a6bd-default-rtdb.europe-west1.firebasedatabase.app/")
                             .getReference("Users")
+                    val deviceToken = getSharedPreferences("com.lifeSavers.emergencyapp", MODE_PRIVATE).getString("device_token", null)
+
+                    firebaseUser.uid.let { uid ->
+                        database.child(uid).child("deviceToken").setValue(deviceToken)
+                            .addOnSuccessListener {
+                                Log.d("device_token", "Device token updated successfully")
+                            }
+                            .addOnFailureListener {
+                                Log.d("device_token", "Device token couldn't be updated")
+                            }
+                    }
 
                     val postListener = object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
