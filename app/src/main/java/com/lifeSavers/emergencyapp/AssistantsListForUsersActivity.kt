@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener
 import com.lifeSavers.emergencyapp.adapter.UserAdapter
 import com.lifeSavers.emergencyapp.databinding.ActivityAssistantsListForUsersBinding
 import com.lifeSavers.emergencyapp.model.User
+import com.lifeSavers.emergencyapp.utils.Utils
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -96,9 +97,10 @@ class AssistantsListForUsersActivity : AppCompatActivity() {
                 }
                 R.id.nav_logout -> {
                     firebaseAuth.signOut()
+                    startActivity(Intent(this, LogInActivity::class.java))
                 }
                 R.id.nav_share_app -> {
-                    MainActivity().shareButtonFunctionality()
+                    Utils().shareButtonFunctionality(this)
                 }
                 R.id.nav_show_guide -> {
                     startActivity(Intent(this, GuidePage1::class.java))
@@ -193,8 +195,10 @@ class AssistantsListForUsersActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         val currentId = FirebaseAuth.getInstance().uid
-        database!!.reference.child("Presence")
-            .child(currentId!!).setValue("Offline")
+        if (currentId != null) {
+            database!!.reference.child("Presence")
+                .child(currentId).setValue("Offline")
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

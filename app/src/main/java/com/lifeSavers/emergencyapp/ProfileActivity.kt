@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 import com.lifeSavers.emergencyapp.databinding.ActivityProfileBinding
 import com.lifeSavers.emergencyapp.model.User
+import com.lifeSavers.emergencyapp.utils.Utils
 
 class ProfileActivity : AppCompatActivity() {
     // ViewBinding
@@ -88,9 +89,10 @@ class ProfileActivity : AppCompatActivity() {
                 }
                 R.id.nav_logout -> {
                     firebaseAuth.signOut()
+                    startActivity(Intent(this, LogInActivity::class.java))
                 }
                 R.id.nav_share_app -> {
-                    MainActivity().shareButtonFunctionality()
+                    Utils().shareButtonFunctionality(this)
                 }
                 R.id.nav_show_guide -> {
                     startActivity(Intent(this, GuidePage1::class.java))

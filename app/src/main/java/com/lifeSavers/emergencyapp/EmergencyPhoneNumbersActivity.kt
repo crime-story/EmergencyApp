@@ -20,6 +20,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import com.lifeSavers.emergencyapp.utils.Utils
 
 class EmergencyPhoneNumbersActivity : AppCompatActivity() {
 
@@ -89,9 +90,10 @@ class EmergencyPhoneNumbersActivity : AppCompatActivity() {
                 }
                 R.id.nav_logout -> {
                     firebaseAuth.signOut()
+                    startActivity(Intent(this, LogInActivity::class.java))
                 }
                 R.id.nav_share_app -> {
-                    MainActivity().shareButtonFunctionality()
+                    Utils().shareButtonFunctionality(this)
                 }
                 R.id.nav_show_guide -> {
                     startActivity(Intent(this, GuidePage1::class.java))
