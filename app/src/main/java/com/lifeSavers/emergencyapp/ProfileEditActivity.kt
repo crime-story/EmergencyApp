@@ -53,7 +53,6 @@ class ProfileEditActivity : AppCompatActivity() {
         progressDialog.setTitle("Please wait...")
         progressDialog.setCanceledOnTouchOutside(false)
 
-        // Configure ActionBar, enable back button
         actionBar = supportActionBar!!
         actionBar.title = "Edit Profile"
         actionBar.setDisplayHomeAsUpEnabled(true)

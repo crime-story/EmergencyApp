@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.View
 import android.widget.MediaController
 import android.widget.TextView
 import android.widget.VideoView
@@ -21,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.lifeSavers.emergencyapp.utils.Utils
 
-class TutorialVideoActivity: AppCompatActivity() {
+class TutorialVideoActivity : AppCompatActivity() {
     private lateinit var actionBar: ActionBar
     private lateinit var toggle: ActionBarDrawerToggle
 
@@ -30,7 +29,7 @@ class TutorialVideoActivity: AppCompatActivity() {
         setContentView(R.layout.activity_tutorial_video)
 
         actionBar = supportActionBar!!
-        actionBar.title = "Emergency in Romania"
+        actionBar.title = "Tutorial - Emergency App"
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -63,7 +62,7 @@ class TutorialVideoActivity: AppCompatActivity() {
         actionBar.setDisplayHomeAsUpEnabled(true)
 
         navView.setNavigationItemSelectedListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.nav_assistants -> {
                     startActivity(Intent(this, AssistantsListForUsersActivity::class.java))
                 }

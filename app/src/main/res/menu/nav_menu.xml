@@ -7,18 +7,18 @@
         <menu>
             <item
                 android:id="@+id/nav_assistants"
-                android:title="@string/assistants"
-                android:icon="@drawable/ic_baseline_supervised_user_circle_24"/>
+                android:icon="@drawable/ic_baseline_supervised_user_circle_24"
+                android:title="@string/assistants" />
 
             <item
                 android:id="@+id/nav_map"
-                android:title="@string/map"
-                android:icon="@drawable/ic_baseline_location_on_24"/>
+                android:icon="@drawable/ic_baseline_location_on_24"
+                android:title="@string/map" />
 
             <item
                 android:id="@+id/nav_urgent_call"
-                android:title="@string/urgent_call"
-                android:icon="@drawable/ic_baseline_call_24"/>
+                android:icon="@drawable/ic_baseline_call_24"
+                android:title="@string/urgent_call" />
         </menu>
     </item>
 
@@ -26,13 +26,13 @@
         <menu>
             <item
                 android:id="@+id/nav_profile"
-                android:title="@string/profile"
-                android:icon="@drawable/ic_baseline_person_outline_24"/>
+                android:icon="@drawable/ic_baseline_person_outline_24"
+                android:title="@string/profile" />
 
             <item
                 android:id="@+id/nav_logout"
-                android:title="@string/logout"
-                android:icon="@drawable/ic_baseline_exit_to_app_24"/>
+                android:icon="@drawable/ic_baseline_exit_to_app_24"
+                android:title="@string/logout" />
         </menu>
     </item>
 
@@ -40,13 +40,13 @@
         <menu>
             <item
                 android:id="@+id/nav_show_guide"
-                android:title="@string/app_guide"
-                android:icon="@drawable/ic_baseline_help_center_24"/>
+                android:icon="@drawable/ic_baseline_help_center_24"
+                android:title="@string/app_guide" />
 
             <item
                 android:id="@+id/nav_show_tutorial_video"
-                android:title="@string/tutorial_video"
-                android:icon="@drawable/ic_baseline_video_cam_24"/>
+                android:icon="@drawable/ic_baseline_video_cam_24"
+                android:title="@string/tutorial_video" />
         </menu>
     </item>
 
@@ -54,8 +54,8 @@
         <menu>
             <item
                 android:id="@+id/nav_share_app"
-                android:title="@string/share_the_app"
-                android:icon="@drawable/ic_baseline_share_24"/>
+                android:icon="@drawable/ic_baseline_share_24"
+                android:title="@string/share_the_app" />
         </menu>
     </item>
 </menu>

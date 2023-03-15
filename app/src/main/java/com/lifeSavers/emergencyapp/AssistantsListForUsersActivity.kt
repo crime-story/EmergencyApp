@@ -46,7 +46,6 @@ class AssistantsListForUsersActivity : AppCompatActivity() {
         binding = ActivityAssistantsListForUsersBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
 
-        // Configure ActionBar, enable back button
         actionBar = supportActionBar!!
         actionBar.title = "Assistants"
 

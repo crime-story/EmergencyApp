@@ -39,7 +39,6 @@ class EmergencyPhoneNumbersActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emergency_phone_numbers)
 
-        // Configure ActionBar, enable back button
         actionBar = supportActionBar!!
         actionBar.title = "Emergency in Romania"
 
