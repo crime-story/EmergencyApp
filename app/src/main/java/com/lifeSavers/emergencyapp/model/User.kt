@@ -7,5 +7,6 @@ data class User(
     val phoneNumber: String? = null,
     val birthDate: String? = null,
     val userType: Long? = null,
-    val profileImage: String? = null
+    val profileImage: String? = null,
+    val deviceToken: String? = null,
 )

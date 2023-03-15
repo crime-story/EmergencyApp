@@ -131,8 +131,12 @@ class SignUpActivity : AppCompatActivity() {
                             FirebaseDatabase.getInstance("https://emergencyapp-3a6bd-default-rtdb.europe-west1.firebasedatabase.app/")
                                 .getReference("Users")
 
+                        val deviceToken = getSharedPreferences("com.lifeSavers.emergencyapp", MODE_PRIVATE).getString("device_token", null)
+
                         val user =
-                            User(firebaseUser.uid, name1, email1, phoneNumber1, birthDate1, 0, "")
+                            User(firebaseUser.uid, name1, email1, phoneNumber1, birthDate1, 0, "",
+                                deviceToken
+                            )
                         database.child(firebaseUser.uid)
                             .setValue(user) // adds on Database a new registered user
                             .addOnSuccessListener {
