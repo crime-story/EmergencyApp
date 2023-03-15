@@ -221,7 +221,11 @@ class ChatActivity : AppCompatActivity() {
                         message!!.messageId = snapshot1.key
                         messages!!.add(message)
                     }
-                    linearLayoutManager.smoothScrollToPosition(binding!!.recyclerView, null, adapter!!.itemCount)
+                    linearLayoutManager.smoothScrollToPosition(
+                        binding!!.recyclerView,
+                        null,
+                        adapter!!.itemCount
+                    )
                     adapter!!.notifyDataSetChanged()
                 }
 
@@ -261,11 +265,15 @@ class ChatActivity : AppCompatActivity() {
                     senderNameRef.addListenerForSingleValueEvent(object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             val senderName = dataSnapshot.value.toString()
-                            val profilePicRef = database!!.reference.child("Users").child(senderUid!!).child("profileImage")
-                            profilePicRef.addListenerForSingleValueEvent(object : ValueEventListener {
+                            val profilePicRef =
+                                database!!.reference.child("Users").child(senderUid!!)
+                                    .child("profileImage")
+                            profilePicRef.addListenerForSingleValueEvent(object :
+                                ValueEventListener {
                                 override fun onDataChange(snapshot: DataSnapshot) {
                                     val senderProfilePic = snapshot.value.toString()
-                                    MyFirebaseMessagingService().sendNotification(senderUid!!, receiverUid!!, senderName,
+                                    MyFirebaseMessagingService().sendNotification(
+                                        senderUid!!, receiverUid!!, senderName,
                                         senderProfilePic
                                     )
                                 }
@@ -324,6 +332,7 @@ class ChatActivity : AppCompatActivity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 binding!!.send.isEnabled = p0.toString().trim().isNotEmpty()
             }
+
             override fun afterTextChanged(p0: Editable?) {
                 database!!.reference.child("Presence")
                     .child(senderUid!!)
