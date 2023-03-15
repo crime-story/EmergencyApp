@@ -5,9 +5,10 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:background="@drawable/background_img_main"
+    android:id="@+id/drawer_layout"
     tools:context=".MainActivity">
 
-    <TextView
+        <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -66,9 +67,8 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="84dp"
         android:layout_marginTop="65dp"
-        android:drawableLeft="@drawable/ic_baseline_share_24"
-        android:text="Share the app"
+        android:drawableStart="@drawable/ic_baseline_share_24_white"
+        android:text="@string/share_the_app"
         android:textColor="@android:color/white"
         android:backgroundTint="@color/red" />
-
-</RelativeLayout>
+    </RelativeLayout>

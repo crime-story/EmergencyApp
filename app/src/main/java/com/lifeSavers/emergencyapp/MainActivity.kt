@@ -37,13 +37,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, AssistantsListForUsersActivity::class.java))
         }
 
-        binding.shareBtn?.setOnClickListener {
-            val shareIntent = Intent(Intent.ACTION_SEND)
-            shareIntent.type = "text/plain"
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "LifeSavers Emergency App")
-            val appUrl = "https://play.google.com/store/apps/details?id=com.lifeSavers.emergencyapp"
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out the LifeSavers Emergency App at:\n$appUrl")
-            startActivity(Intent.createChooser(shareIntent, "Share the app"))
+        binding.shareBtn.setOnClickListener {
+            shareButtonFunctionality()
         }
 
         val currentUser = FirebaseAuth.getInstance().currentUser
@@ -58,6 +53,14 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, GuidePage1::class.java))
             }
         }
+    }
 
+    fun shareButtonFunctionality() {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "text/plain"
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "LifeSavers Emergency App")
+        val appUrl = "https://play.google.com/store/apps/details?id=com.lifeSavers.emergencyapp"
+        shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out the LifeSavers Emergency App at:\n$appUrl")
+        startActivity(Intent.createChooser(shareIntent, "Share the app"))
     }
 }

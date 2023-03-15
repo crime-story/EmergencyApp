@@ -7,11 +7,18 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.TextView
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
 
 class EmergencyPhoneNumbersActivity : AppCompatActivity() {
@@ -26,6 +33,7 @@ class EmergencyPhoneNumbersActivity : AppCompatActivity() {
 
     private lateinit var databaseReference: DatabaseReference
     private lateinit var phoneNumbersMap: MutableMap<String, String>
+    private lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +42,63 @@ class EmergencyPhoneNumbersActivity : AppCompatActivity() {
         // Configure ActionBar, enable back button
         actionBar = supportActionBar!!
         actionBar.title = "Emergency in Romania"
+
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+        val firebaseUser: FirebaseUser? = firebaseAuth.currentUser
+
+        toggle = ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close)
+
+        val database =
+            FirebaseDatabase.getInstance("https://emergencyapp-3a6bd-default-rtdb.europe-west1.firebasedatabase.app/")
+                .getReference("Users")
+        database.child(firebaseUser!!.uid)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val email = "${snapshot.child("email").value}"
+                    val name = "${snapshot.child("name").value}"
+
+                    val nameTextView: TextView = findViewById(R.id.user_name)
+                    nameTextView.text = name
+                    val emailTextView: TextView = findViewById(R.id.user_email)
+                    emailTextView.text = email
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
         actionBar.setDisplayHomeAsUpEnabled(true)
-        actionBar.setDisplayShowHomeEnabled(true)
+
+        navView.setNavigationItemSelectedListener {
+            when(it.itemId) {
+                R.id.nav_assistants -> {
+                    startActivity(Intent(this, AssistantsListForUsersActivity::class.java))
+                }
+                R.id.nav_map -> {
+                    startActivity(Intent(this, PermissionsActivity::class.java))
+                }
+                R.id.nav_urgent_call -> {
+                    startActivity(Intent(this, EmergencyPhoneNumbersActivity::class.java))
+                }
+                R.id.nav_profile -> {
+                    startActivity(Intent(this, ProfileActivity::class.java))
+                }
+                R.id.nav_logout -> {
+                    firebaseAuth.signOut()
+                }
+                R.id.nav_share_app -> {
+                    MainActivity().shareButtonFunctionality()
+                }
+                R.id.nav_show_guide -> {
+                    startActivity(Intent(this, GuidePage1::class.java))
+                }
+            }
+            true
+        }
 
         listView = findViewById(R.id.listView)
 
@@ -111,5 +174,12 @@ class EmergencyPhoneNumbersActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed() // go back to previous activity, when back button of actionBar clicked
         return super.onSupportNavigateUp()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (toggle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
