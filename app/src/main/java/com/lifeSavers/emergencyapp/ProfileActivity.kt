@@ -74,7 +74,7 @@ class ProfileActivity : AppCompatActivity() {
         actionBar.setDisplayHomeAsUpEnabled(true)
 
         navView.setNavigationItemSelectedListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.nav_assistants -> {
                     startActivity(Intent(this, AssistantsListForUsersActivity::class.java))
                 }

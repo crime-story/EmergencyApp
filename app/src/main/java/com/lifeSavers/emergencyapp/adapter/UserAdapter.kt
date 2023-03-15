@@ -13,7 +13,7 @@ import com.lifeSavers.emergencyapp.databinding.ItemProfileBinding
 import com.lifeSavers.emergencyapp.model.User
 
 class UserAdapter(var context: Context, private var usersList: ArrayList<User>) :
-    RecyclerView.Adapter<UserAdapter. UserViewHolder>() {
+    RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding: ItemProfileBinding = ItemProfileBinding.bind(itemView)
     }

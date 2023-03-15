@@ -26,7 +26,6 @@ import com.lifeSavers.emergencyapp.databinding.ActivityAssistantsListForUsersBin
 import com.lifeSavers.emergencyapp.model.User
 import com.lifeSavers.emergencyapp.utils.Utils
 import java.util.*
-import kotlin.collections.ArrayList
 
 class AssistantsListForUsersActivity : AppCompatActivity() {
 
@@ -82,7 +81,7 @@ class AssistantsListForUsersActivity : AppCompatActivity() {
         actionBar.setDisplayHomeAsUpEnabled(true)
 
         navView.setNavigationItemSelectedListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.nav_assistants -> {
                     startActivity(Intent(this, AssistantsListForUsersActivity::class.java))
                 }
@@ -120,9 +119,9 @@ class AssistantsListForUsersActivity : AppCompatActivity() {
         val layoutManagerPortrait = GridLayoutManager(this@AssistantsListForUsersActivity, 2)
         val layoutManagerLandscape = GridLayoutManager(this@AssistantsListForUsersActivity, 3)
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            binding!!.mRec.layoutManager = layoutManagerLandscape
+            binding!!.mRec?.layoutManager = layoutManagerLandscape
         } else {
-            binding!!.mRec.layoutManager = layoutManagerPortrait
+            binding!!.mRec?.layoutManager = layoutManagerPortrait
         }
         database!!.reference.child("Users")
             .child(FirebaseAuth.getInstance().uid!!)
@@ -134,11 +133,11 @@ class AssistantsListForUsersActivity : AppCompatActivity() {
                 override fun onCancelled(error: DatabaseError) {}
 
             })
-        binding!!.mRec.adapter = usersAdapter
+        binding!!.mRec?.adapter = usersAdapter
 
         searchView = findViewById(R.id.searchView)
 
-        searchView!!.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+        searchView!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(newText: String?): Boolean {
                 return false
             }
