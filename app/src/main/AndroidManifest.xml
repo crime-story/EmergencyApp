@@ -83,6 +83,10 @@
 
         <activity android:name=".GuidePage3" />
 
+        <activity
+            android:name=".TutorialVideoActivity"
+            android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.android.provider"

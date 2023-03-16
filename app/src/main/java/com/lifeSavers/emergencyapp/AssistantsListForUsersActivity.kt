@@ -46,7 +46,6 @@ class AssistantsListForUsersActivity : AppCompatActivity() {
         binding = ActivityAssistantsListForUsersBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
 
-        // Configure ActionBar, enable back button
         actionBar = supportActionBar!!
         actionBar.title = "Assistants"
 
@@ -103,6 +102,9 @@ class AssistantsListForUsersActivity : AppCompatActivity() {
                 }
                 R.id.nav_show_guide -> {
                     startActivity(Intent(this, GuidePage1::class.java))
+                }
+                R.id.nav_show_tutorial_video -> {
+                    startActivity(Intent(this, TutorialVideoActivity::class.java))
                 }
             }
             true

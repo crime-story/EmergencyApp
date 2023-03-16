@@ -38,7 +38,6 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Configure ActionBar, enable back button
         actionBar = supportActionBar!!
         actionBar.title = "Profile"
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -96,6 +95,9 @@ class ProfileActivity : AppCompatActivity() {
                 }
                 R.id.nav_show_guide -> {
                     startActivity(Intent(this, GuidePage1::class.java))
+                }
+                R.id.nav_show_tutorial_video -> {
+                    startActivity(Intent(this, TutorialVideoActivity::class.java))
                 }
             }
             true

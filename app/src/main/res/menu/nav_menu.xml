@@ -36,6 +36,20 @@
         </menu>
     </item>
 
+    <item android:title="@string/help">
+        <menu>
+            <item
+                android:id="@+id/nav_show_guide"
+                android:icon="@drawable/ic_baseline_help_center_24"
+                android:title="@string/app_guide" />
+
+            <item
+                android:id="@+id/nav_show_tutorial_video"
+                android:icon="@drawable/ic_baseline_video_cam_24"
+                android:title="@string/tutorial_video" />
+        </menu>
+    </item>
+
     <item android:title="@string/community">
         <menu>
             <item
@@ -44,15 +58,4 @@
                 android:title="@string/share_the_app" />
         </menu>
     </item>
-
-    <item android:title="@string/help">
-        <menu>
-            <item
-                android:id="@+id/nav_show_guide"
-                android:icon="@drawable/ic_baseline_help_center_24"
-                android:title="@string/show_app_guide" />
-        </menu>
-    </item>
-
-
 </menu>

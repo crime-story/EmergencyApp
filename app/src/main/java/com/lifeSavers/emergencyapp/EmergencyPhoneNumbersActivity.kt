@@ -39,7 +39,6 @@ class EmergencyPhoneNumbersActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_emergency_phone_numbers)
 
-        // Configure ActionBar, enable back button
         actionBar = supportActionBar!!
         actionBar.title = "Emergency in Romania"
 
@@ -96,6 +95,9 @@ class EmergencyPhoneNumbersActivity : AppCompatActivity() {
                 }
                 R.id.nav_show_guide -> {
                     startActivity(Intent(this, GuidePage1::class.java))
+                }
+                R.id.nav_show_tutorial_video -> {
+                    startActivity(Intent(this, TutorialVideoActivity::class.java))
                 }
             }
             true
