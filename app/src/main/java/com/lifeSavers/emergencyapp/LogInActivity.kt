@@ -19,6 +19,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.Scopes
+import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -73,7 +75,7 @@ class LogInActivity : AppCompatActivity() {
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
+            .requestScopes(Scope(Scopes.PROFILE), Scope(Scopes.EMAIL))
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
@@ -134,16 +136,56 @@ class LogInActivity : AppCompatActivity() {
 
     private fun updateUI(account: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+        val googleEmail = account.email
+        val googlePic = account.photoUrl
+
+        // check if the email already exists in the database
+        val database =
+            FirebaseDatabase.getInstance("https://emergencyapp-3a6bd-default-rtdb.europe-west1.firebasedatabase.app/")
+                .getReference("Users")
+
+        database.orderByChild("email").equalTo(googleEmail).addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()) {
+                    // Email already exists, redirect to MainActivity
+                    val intent = Intent(this@LogInActivity, MainActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    // Email does not exist, redirect to GoogleSignUpActivity
+                    val intent = Intent(this@LogInActivity, GoogleSignUpActivity::class.java)
+                    intent.putExtra("email", googleEmail)
+                    startActivity(intent)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e(TAG, "onCancelled", error.toException())
+                Toast.makeText(this@LogInActivity, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
+            if (!it.isSuccessful) {
+                Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        /////////
+
+        /*
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
                 val intent : Intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("email", account.email)
                 intent.putExtra("name", account.displayName)
+                intent.putExtra("profilePic", account.photoUrl)
                 startActivity(intent)
             } else {
                 Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
             }
         }
+         */
     }
 
     private fun forgotPassword(email: EditText) {
