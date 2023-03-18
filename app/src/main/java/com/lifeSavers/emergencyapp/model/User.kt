@@ -1,7 +1,7 @@
 package com.lifeSavers.emergencyapp.model
 
 data class User(
-    val uid: String? = null,
+    var uid: String? = null,
     val name: String? = null,
     val email: String? = null,
     val phoneNumber: String? = null,

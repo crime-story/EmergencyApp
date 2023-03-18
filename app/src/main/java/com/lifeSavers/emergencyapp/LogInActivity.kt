@@ -20,6 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.Scopes
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Scope
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -29,6 +30,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.lifeSavers.emergencyapp.databinding.ActivityLoginBinding
+import com.lifeSavers.emergencyapp.model.User
 
 class LogInActivity : AppCompatActivity() {
     // ViewBinding
@@ -111,30 +113,55 @@ class LogInActivity : AppCompatActivity() {
     }
 
     private fun signInGoogle() {
+        Log.d("google123", "signInGoogle")
         val signInIntent = googleSignInClient.signInIntent
+        Log.d("google123", signInIntent.toString())
         launcher.launch(signInIntent)
     }
 
     private val launcher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-                handleResults(task)
+            Log.d("google123", "Launcher")
+            Log.d("google123", result.resultCode.toString())
+            Log.d("google123", Activity.RESULT_OK.toString())
+            Log.d("google123", result.toString())
+            when (result.resultCode) {
+                Activity.RESULT_OK -> {
+                    Log.d("google123", "Launcher IF")
+                    val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                    handleResults(task)
+                }
+                Activity.RESULT_CANCELED -> {
+                    Log.d("google123", "Activity was cancelled")
+                    // handle the cancelled result here
+                }
+                else -> {
+                    Log.d("google123", "Unknown result code: ${result.resultCode}")
+                    // handle any other result codes here
+                }
             }
         }
 
+
     private fun handleResults(task: Task<GoogleSignInAccount>) {
-        if (task.isSuccessful) {
-            val account: GoogleSignInAccount? = task.result
+        try {
+            // Check if sign in was successful
+            Log.d("google123", task.toString())
+            val account = task.getResult(ApiException::class.java)
             if (account != null) {
-                googleAuthentification(account)
+                // Authenticate the user with Firebase
+                googleAuthentication(account)
+            } else {
+                // Show an error message
+                Toast.makeText(this, "Google sign in failed", Toast.LENGTH_SHORT).show()
             }
-        } else {
-            Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
+        } catch (e: ApiException) {
+            // Show an error message
+            Toast.makeText(this, "Google sign in failed: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun googleAuthentification(account: GoogleSignInAccount) {
+    private fun googleAuthentication(account: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         val googleEmail = account.email
         val googlePic = account.photoUrl
@@ -144,28 +171,36 @@ class LogInActivity : AppCompatActivity() {
             FirebaseDatabase.getInstance("https://emergencyapp-3a6bd-default-rtdb.europe-west1.firebasedatabase.app/")
                 .getReference("Users")
 
-        val deviceToken =
-            getSharedPreferences("com.lifeSavers.emergencyapp", MODE_PRIVATE).getString(
-                "device_token",
-                null
-            )
-
         database.orderByChild("email").equalTo(googleEmail).addListenerForSingleValueEvent(object :
             ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
-                    // Email already exists, redirect to MainActivity
-                    //Toast.makeText(this, "Logged in as $googleEmail", Toast.LENGTH_SHORT).show()
-                    val userType = snapshot.getValue(Long::class.java)
-
-                    if (userType.toString() == "0") {
-                        startActivity(Intent(this@LogInActivity, MainActivity::class.java))
-                        finish()
-                    } else {
-                        startActivity(Intent(this@LogInActivity, MainActivity::class.java))
-                        finish()
+                    var user: User? = null
+                    for (childSnapshot in snapshot.children) {
+                        val uid = childSnapshot.key
+                        var userData = childSnapshot.getValue(User::class.java)
+                        if (userData?.email == googleEmail && uid != null) {
+                            userData?.uid = uid
+                            user = userData
+                            break
+                        }
                     }
-                    startActivity(intent)
+
+                    if (user != null) {
+                        // User with matching email found, check userType and redirect to MainActivity
+                        if (user.userType == 0L) {
+                            startActivity(Intent(this@LogInActivity, MainActivity::class.java))
+                            finish()
+                        } else {
+                            startActivity(Intent(this@LogInActivity, MainActivity::class.java))
+                            finish()
+                        }
+                    } else {
+                        // User with matching email not found, redirect to GoogleSignUpActivity
+                        val intent = Intent(this@LogInActivity, GoogleSignUpActivity::class.java)
+                        intent.putExtra("email", googleEmail)
+                        startActivity(intent)
+                    }
                 } else {
                     // Email does not exist, redirect to GoogleSignUpActivity
                     val intent = Intent(this@LogInActivity, GoogleSignUpActivity::class.java)
@@ -179,6 +214,7 @@ class LogInActivity : AppCompatActivity() {
                 Toast.makeText(this@LogInActivity, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
             }
         })
+
 
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (!it.isSuccessful) {
