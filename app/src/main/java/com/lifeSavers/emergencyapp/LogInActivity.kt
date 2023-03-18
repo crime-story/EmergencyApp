@@ -144,12 +144,27 @@ class LogInActivity : AppCompatActivity() {
             FirebaseDatabase.getInstance("https://emergencyapp-3a6bd-default-rtdb.europe-west1.firebasedatabase.app/")
                 .getReference("Users")
 
+        val deviceToken =
+            getSharedPreferences("com.lifeSavers.emergencyapp", MODE_PRIVATE).getString(
+                "device_token",
+                null
+            )
+
         database.orderByChild("email").equalTo(googleEmail).addListenerForSingleValueEvent(object :
             ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     // Email already exists, redirect to MainActivity
-                    val intent = Intent(this@LogInActivity, MainActivity::class.java)
+                    //Toast.makeText(this, "Logged in as $googleEmail", Toast.LENGTH_SHORT).show()
+                    val userType = snapshot.getValue(Long::class.java)
+
+                    if (userType.toString() == "0") {
+                        startActivity(Intent(this@LogInActivity, MainActivity::class.java))
+                        finish()
+                    } else {
+                        startActivity(Intent(this@LogInActivity, MainActivity::class.java))
+                        finish()
+                    }
                     startActivity(intent)
                 } else {
                     // Email does not exist, redirect to GoogleSignUpActivity
