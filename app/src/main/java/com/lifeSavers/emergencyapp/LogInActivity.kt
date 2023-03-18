@@ -127,14 +127,14 @@ class LogInActivity : AppCompatActivity() {
         if (task.isSuccessful) {
             val account: GoogleSignInAccount? = task.result
             if (account != null) {
-                updateUI(account)
+                googleAuthentification(account)
             }
         } else {
             Toast.makeText(this, task.exception.toString(), Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun updateUI(account: GoogleSignInAccount) {
+    private fun googleAuthentification(account: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         val googleEmail = account.email
         val googlePic = account.photoUrl
