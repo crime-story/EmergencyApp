@@ -1,4 +1,4 @@
-package com.lifeSavers.emergencyapp
+package com.lifeSavers.emergencyapp.activities
 
 import android.content.Intent
 import android.content.SharedPreferences

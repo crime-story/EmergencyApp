@@ -6,7 +6,7 @@
     android:background="@drawable/background_img_landscape"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ConfirmEmailActivity">
+    tools:context=".activities.ConfirmEmailActivity">
 
     <TextView
         android:id="@+id/message_text"

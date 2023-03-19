@@ -1,46 +1,36 @@
-package com.lifeSavers.emergencyapp
+package com.lifeSavers.emergencyapp.activities
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.ArrayAdapter
-import android.widget.ListView
+import android.widget.MediaController
 import android.widget.TextView
+import android.widget.VideoView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.lifeSavers.emergencyapp.R
 import com.lifeSavers.emergencyapp.utils.Utils
 
-class EmergencyPhoneNumbersActivity : AppCompatActivity() {
-
-    private lateinit var listView: ListView
-    private var phoneNumber = "123"
-
-    private val requestPhoneCall = 1
-
-    // ActionBar
+class TutorialVideoActivity : AppCompatActivity() {
     private lateinit var actionBar: ActionBar
-
-    private lateinit var databaseReference: DatabaseReference
-    private lateinit var phoneNumbersMap: MutableMap<String, String>
     private lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_emergency_phone_numbers)
+        setContentView(R.layout.activity_tutorial_video)
 
         actionBar = supportActionBar!!
-        actionBar.title = "Emergency in Romania"
+        actionBar.title = "Tutorial - Emergency App"
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -103,80 +93,16 @@ class EmergencyPhoneNumbersActivity : AppCompatActivity() {
             true
         }
 
-        listView = findViewById(R.id.listView)
+        val videoView = findViewById<VideoView>(R.id.video_view)
+        val mediaController = MediaController(this)
+        mediaController.setAnchorView(videoView)
 
-        databaseReference = FirebaseDatabase.getInstance().reference.child("PhoneNumbers")
+        val videoUri = Uri.parse("android.resource://$packageName/${R.raw.tutorial}")
 
-        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val names = ArrayList<String>()
-                phoneNumbersMap = mutableMapOf()
-
-                for (ds in snapshot.children) {
-                    val name = ds.key.toString().removeSurrounding("\"")
-                    val phoneNumber = ds.value.toString()
-
-                    names.add(name)
-                    phoneNumbersMap[name] = phoneNumber
-                }
-
-                val arrayAdapter: ArrayAdapter<String> =
-                    ArrayAdapter(
-                        this@EmergencyPhoneNumbersActivity,
-                        android.R.layout.simple_list_item_1,
-                        names
-                    )
-
-                listView.adapter = arrayAdapter
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-            }
-        })
-
-        listView.setOnItemClickListener { _, _, position, _ ->
-            val name = listView.getItemAtPosition(position).toString()
-            val phoneNumber = phoneNumbersMap[name]
-
-            if (phoneNumber != null) {
-                if (ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.CALL_PHONE
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    ActivityCompat.requestPermissions(
-                        this,
-                        arrayOf(Manifest.permission.CALL_PHONE),
-                        requestPhoneCall
-                    )
-                } else {
-                    this.phoneNumber = phoneNumber
-                    startCall()
-                }
-            }
-        }
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun startCall() {
-        val callIntent = Intent(Intent.ACTION_CALL)
-        callIntent.data = Uri.parse("tel: $phoneNumber")
-        startActivity(callIntent)
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == requestPhoneCall)
-            startCall()
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed() // go back to previous activity, when back button of actionBar clicked
-        return super.onSupportNavigateUp()
+        videoView.setMediaController(mediaController)
+        videoView.setVideoURI(videoUri)
+        videoView.requestFocus()
+        videoView.start()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
