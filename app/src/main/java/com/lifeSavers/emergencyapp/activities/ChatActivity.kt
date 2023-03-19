@@ -27,8 +27,8 @@ import com.google.firebase.storage.FirebaseStorage
 import com.lifeSavers.emergencyapp.R
 import com.lifeSavers.emergencyapp.adapter.MessagesAdapter
 import com.lifeSavers.emergencyapp.databinding.ActivityChatBinding
-import com.lifeSavers.emergencyapp.service.MyFirebaseMessagingService
 import com.lifeSavers.emergencyapp.model.Message
+import com.lifeSavers.emergencyapp.service.MyFirebaseMessagingService
 import java.io.File
 import java.io.IOException
 import java.util.*

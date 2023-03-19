@@ -21,7 +21,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.lifeSavers.emergencyapp.*
+import com.lifeSavers.emergencyapp.R
 import com.lifeSavers.emergencyapp.adapter.UserAdapter
 import com.lifeSavers.emergencyapp.databinding.ActivityAssistantsListForUsersBinding
 import com.lifeSavers.emergencyapp.model.User

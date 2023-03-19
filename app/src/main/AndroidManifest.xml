@@ -72,8 +72,9 @@
         <activity
             android:name=".activities.SignUpActivity"
             android:exported="false" />
+
         <activity
-            android:name=".activities.PermissionsActivity"
+            android:name=".activities.GoogleSignUpActivity"
             android:exported="false" />
 
         <activity

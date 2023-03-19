@@ -10,7 +10,6 @@ import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.RelativeLayout
@@ -225,7 +224,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                     InputMethodManager.HIDE_IMPLICIT_ONLY
                 )
                 val placeId = selectedPrediction.placeId
-                val placeFields = listOf(Place.Field.LAT_LNG,
+                val placeFields = listOf(
+                    Place.Field.LAT_LNG,
                     Place.Field.NAME,
                     Place.Field.ADDRESS,
                     Place.Field.PHONE_NUMBER

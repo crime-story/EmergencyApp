@@ -28,9 +28,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:contentDescription="@string/marker"
             android:src="@drawable/ic_location_pin_svg_repo_com"
-            android:translationY="-18dp"
-            android:contentDescription="@string/marker" />
+            android:translationY="-18dp" />
     </com.skyfishjy.library.RippleBackground>
 
     <com.mancj.materialsearchbar.MaterialSearchBar
