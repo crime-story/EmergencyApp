@@ -113,30 +113,21 @@ class LogInActivity : AppCompatActivity() {
     }
 
     private fun signInGoogle() {
-        Log.d("google123", "signInGoogle")
         val signInIntent = googleSignInClient.signInIntent
-        Log.d("google123", signInIntent.toString())
         launcher.launch(signInIntent)
     }
 
     private val launcher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            Log.d("google123", "Launcher")
-            Log.d("google123", result.resultCode.toString())
-            Log.d("google123", Activity.RESULT_OK.toString())
-            Log.d("google123", result.toString())
             when (result.resultCode) {
                 Activity.RESULT_OK -> {
-                    Log.d("google123", "Launcher IF")
                     val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
                     handleResults(task)
                 }
                 Activity.RESULT_CANCELED -> {
-                    Log.d("google123", "Activity was cancelled")
                     // handle the cancelled result here
                 }
                 else -> {
-                    Log.d("google123", "Unknown result code: ${result.resultCode}")
                     // handle any other result codes here
                 }
             }
@@ -146,7 +137,6 @@ class LogInActivity : AppCompatActivity() {
     private fun handleResults(task: Task<GoogleSignInAccount>) {
         try {
             // Check if sign in was successful
-            Log.d("google123", task.toString())
             val account = task.getResult(ApiException::class.java)
             if (account != null) {
                 // Authenticate the user with Firebase
@@ -164,7 +154,8 @@ class LogInActivity : AppCompatActivity() {
     private fun googleAuthentication(account: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         val googleEmail = account.email
-        val googlePic = account.photoUrl
+        val googleName = account.displayName
+        val googlePic = account.photoUrl.toString()
 
         // check if the email already exists in the database
         val database =
@@ -199,19 +190,24 @@ class LogInActivity : AppCompatActivity() {
                         // User with matching email not found, redirect to GoogleSignUpActivity
                         val intent = Intent(this@LogInActivity, GoogleSignUpActivity::class.java)
                         intent.putExtra("email", googleEmail)
+                        intent.putExtra("name", googleName)
+                        intent.putExtra("pic", googlePic)
                         startActivity(intent)
                     }
                 } else {
                     // Email does not exist, redirect to GoogleSignUpActivity
                     val intent = Intent(this@LogInActivity, GoogleSignUpActivity::class.java)
                     intent.putExtra("email", googleEmail)
+                    intent.putExtra("name", googleName)
+                    intent.putExtra("pic", googlePic)
                     startActivity(intent)
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.e(TAG, "onCancelled", error.toException())
-                Toast.makeText(this@LogInActivity, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@LogInActivity, "Error: ${error.message}", Toast.LENGTH_SHORT)
+                    .show()
             }
         })
 
@@ -221,22 +217,6 @@ class LogInActivity : AppCompatActivity() {
                 Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
             }
         }
-
-        /////////
-
-        /*
-        firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
-            if (it.isSuccessful) {
-                val intent : Intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("email", account.email)
-                intent.putExtra("name", account.displayName)
-                intent.putExtra("profilePic", account.photoUrl)
-                startActivity(intent)
-            } else {
-                Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
-            }
-        }
-         */
     }
 
     private fun forgotPassword(email: EditText) {

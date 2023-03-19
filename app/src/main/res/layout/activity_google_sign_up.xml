@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_img"
-    tools:context=".SignUpActivity">
+    tools:context=".GoogleSignUpActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,25 +48,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Email -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/emailTil"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="10dp">
-
-            <EditText
-                android:id="@+id/emailEt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:hint="@string/email"
-                android:inputType="textEmailAddress" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
         <!-- Phone Number -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/phoneNumberTil"
@@ -103,45 +83,6 @@
                 android:autofillHints=""
                 android:hint="@string/year_of_birth"
                 android:inputType="datetime" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Password -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passwordTil"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="10dp"
-            app:passwordToggleEnabled="true">
-
-            <EditText
-                android:id="@+id/passwordEt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:hint="@string/password"
-                android:inputType="textPassword" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Confirmed Password -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/confirmedPasswordTil"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            app:passwordToggleEnabled="true">
-
-            <EditText
-                android:id="@+id/confirmedPasswordEt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:hint="@string/confirm_password"
-                android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
