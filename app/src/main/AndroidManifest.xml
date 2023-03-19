@@ -18,6 +18,7 @@
     <permission
         android:name="com.lifeSavers.emergencyapp.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
+
     <uses-permission android:name="com.lifeSavers.emergencyapp.permission.C2D_MESSAGE" />
 
     <application
@@ -28,66 +29,59 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EmergencyApp">
         <activity
+            android:name=".activities.LogInActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.ChatActivity"
             android:exported="false" />
-
         <activity
             android:name=".activities.AssistantsListForUsersActivity"
             android:exported="false" />
-
         <activity
             android:name=".activities.EmergencyPhoneNumbersActivity"
             android:exported="false" />
-
         <activity
             android:name=".activities.ProfileEditActivity"
             android:exported="false" />
-
-        <activity android:name=".activities.PermissionsActivity"
+        <activity
+            android:name=".activities.PermissionsActivity"
             android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB5eO-XEgrkf7dldq5Ef1VelbSwyhBWOq8"/>
+            android:value="AIzaSyB5eO-XEgrkf7dldq5Ef1VelbSwyhBWOq8" />
 
         <activity
             android:name=".activities.MapActivity"
             android:exported="false"
             android:label="@string/title_activity_map"
             android:theme="@style/Theme.EmergencyApp.NoActionBar" />
-
         <activity
             android:name=".activities.MainActivity"
             android:exported="false" />
-
         <activity
             android:name=".activities.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.LogInActivity"
+            android:name=".activities.StartupActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".activities.SignUpActivity"
             android:exported="false" />
-
         <activity
             android:name=".activities.GoogleSignUpActivity"
             android:exported="false" />
-
         <activity
             android:name=".activities.GuidePage1"
             android:exported="false" />
-
         <activity android:name=".activities.GuidePage2" />
-
         <activity android:name=".activities.GuidePage3" />
-
         <activity
             android:name=".activities.TutorialVideoActivity"
             android:exported="false" />

@@ -74,11 +74,13 @@ class MainActivity : AppCompatActivity() {
         profileBtnAnim.duration = 500
         profileBtnAnim.start()
 
-        val phoneNumbersBtnAnim = ObjectAnimator.ofFloat(binding.phoneNumbersBtn, View.ROTATION, -360f, 0f)
+        val phoneNumbersBtnAnim =
+            ObjectAnimator.ofFloat(binding.phoneNumbersBtn, View.ROTATION, -360f, 0f)
         phoneNumbersBtnAnim.duration = 500
         phoneNumbersBtnAnim.start()
 
-        val assistantsListBtnAnim = ObjectAnimator.ofFloat(binding.assistantsListBtn, View.ROTATION, -360f, 0f)
+        val assistantsListBtnAnim =
+            ObjectAnimator.ofFloat(binding.assistantsListBtn, View.ROTATION, -360f, 0f)
         assistantsListBtnAnim.duration = 500
         assistantsListBtnAnim.start()
 
