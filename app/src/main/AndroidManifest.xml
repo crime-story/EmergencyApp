@@ -43,6 +43,9 @@
             android:name=".activities.ProfileEditActivity"
             android:exported="false" />
 
+        <activity android:name=".activities.PermissionsActivity"
+            android:exported="false" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB5eO-XEgrkf7dldq5Ef1VelbSwyhBWOq8"/>
