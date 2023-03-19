@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -27,40 +28,43 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EmergencyApp">
         <activity
-            android:name=".ChatActivity"
+            android:name=".activities.ChatActivity"
             android:exported="false" />
 
         <activity
-            android:name=".AssistantsListForUsersActivity"
+            android:name=".activities.AssistantsListForUsersActivity"
             android:exported="false" />
 
         <activity
-            android:name=".EmergencyPhoneNumbersActivity"
+            android:name=".activities.EmergencyPhoneNumbersActivity"
             android:exported="false" />
 
         <activity
-            android:name=".ProfileEditActivity"
+            android:name=".activities.ProfileEditActivity"
+            android:exported="false" />
+
+        <activity android:name=".activities.PermissionsActivity"
             android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDkmsjZUMpcNvsHL4Fa04G8MvMWaWzvfFw" />
+            android:value="AIzaSyB5eO-XEgrkf7dldq5Ef1VelbSwyhBWOq8"/>
 
         <activity
-            android:name=".MapActivity"
+            android:name=".activities.MapActivity"
             android:exported="false"
             android:label="@string/title_activity_map"
             android:theme="@style/Theme.EmergencyApp.NoActionBar" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="false" />
 
         <activity
-            android:name=".ProfileActivity"
+            android:name=".activities.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".LogInActivity"
+            android:name=".activities.LogInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,25 +73,23 @@
         </activity>
 
         <activity
-            android:name=".SignUpActivity"
-            android:exported="false" />
-        <activity
-            android:name=".GoogleSignUpActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PermissionsActivity"
+            android:name=".activities.SignUpActivity"
             android:exported="false" />
 
         <activity
-            android:name=".GuidePage1"
+            android:name=".activities.GoogleSignUpActivity"
             android:exported="false" />
 
-        <activity android:name=".GuidePage2" />
+        <activity
+            android:name=".activities.GuidePage1"
+            android:exported="false" />
 
-        <activity android:name=".GuidePage3" />
+        <activity android:name=".activities.GuidePage2" />
+
+        <activity android:name=".activities.GuidePage3" />
 
         <activity
-            android:name=".TutorialVideoActivity"
+            android:name=".activities.TutorialVideoActivity"
             android:exported="false" />
 
         <provider
@@ -101,7 +103,7 @@
         </provider>
 
         <service
-            android:name=".firebaseNotification.MyFirebaseMessagingService"
+            android:name=".service.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

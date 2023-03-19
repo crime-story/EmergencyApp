@@ -1,10 +1,11 @@
-package com.lifeSavers.emergencyapp
+package com.lifeSavers.emergencyapp.activities
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.lifeSavers.emergencyapp.R
 
 class ConfirmEmailActivity : AppCompatActivity() {
 

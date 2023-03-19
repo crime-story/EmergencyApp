@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.lifeSavers.emergencyapp.ChatActivity
 import com.lifeSavers.emergencyapp.R
+import com.lifeSavers.emergencyapp.activities.ChatActivity
 import com.lifeSavers.emergencyapp.databinding.ItemProfileBinding
 import com.lifeSavers.emergencyapp.model.User
 

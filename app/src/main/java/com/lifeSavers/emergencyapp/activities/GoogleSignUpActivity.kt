@@ -1,4 +1,4 @@
-package com.lifeSavers.emergencyapp
+package com.lifeSavers.emergencyapp.activities
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.lifeSavers.emergencyapp.R
 import com.lifeSavers.emergencyapp.databinding.ActivityGoogleSignUpBinding
 import com.lifeSavers.emergencyapp.model.User
 import java.util.*

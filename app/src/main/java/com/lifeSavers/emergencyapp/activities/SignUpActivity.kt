@@ -1,4 +1,4 @@
-package com.lifeSavers.emergencyapp
+package com.lifeSavers.emergencyapp.activities
 
 import android.app.ProgressDialog
 import android.content.Intent

@@ -1,4 +1,4 @@
-package com.lifeSavers.emergencyapp
+package com.lifeSavers.emergencyapp.activities
 
 import android.content.ContentValues
 import android.content.Intent
@@ -15,6 +15,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.*
+import com.lifeSavers.emergencyapp.R
 import com.lifeSavers.emergencyapp.databinding.ActivityProfileBinding
 import com.lifeSavers.emergencyapp.model.User
 import com.lifeSavers.emergencyapp.utils.Utils

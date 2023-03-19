@@ -1,4 +1,4 @@
-package com.lifeSavers.emergencyapp
+package com.lifeSavers.emergencyapp.activities
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -29,6 +29,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.lifeSavers.emergencyapp.R
 import com.lifeSavers.emergencyapp.databinding.ActivityLoginBinding
 import com.lifeSavers.emergencyapp.model.User
 

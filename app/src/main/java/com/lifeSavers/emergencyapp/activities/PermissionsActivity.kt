@@ -1,4 +1,4 @@
-package com.lifeSavers.emergencyapp
+package com.lifeSavers.emergencyapp.activities
 
 //import android.support.v4.content.ContextCompat
 //import android.support.v7.app.AlertDialog
@@ -20,6 +20,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import com.lifeSavers.emergencyapp.R
 
 class PermissionsActivity : AppCompatActivity() {
     private lateinit var btnGrant: Button
