@@ -28,12 +28,6 @@ The purpose of this Android app is to provide users with real-time emergency ale
 
 ## App Features
 
-- Fast-paced, action-packed gameplay
-- A variety of weapons and power-ups to defeat enemies
-- Stunning graphics and smooth gameplay
-- Increasing difficulty level as you progress through the game
-- Multiple levels with different environments
-
 ## Demo of the app
 
 You can find our Demo [(here)](youtube.com)
