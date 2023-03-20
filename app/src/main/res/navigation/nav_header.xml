@@ -29,13 +29,4 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp" />
 
-    <!--    <ListView-->
-    <!--        android:id="@+id/drawer_list"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:choiceMode="singleChoice"-->
-    <!--        android:divider="@null"-->
-    <!--        android:dividerHeight="0dp"-->
-    <!--        android:listSelector="@drawable/profile_pic" />-->
-
 </LinearLayout>
