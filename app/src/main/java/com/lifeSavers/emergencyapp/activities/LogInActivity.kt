@@ -170,7 +170,7 @@ class LogInActivity : AppCompatActivity() {
                     var user: User? = null
                     for (childSnapshot in snapshot.children) {
                         val uid = childSnapshot.key
-                        var userData = childSnapshot.getValue(User::class.java)
+                        val userData = childSnapshot.getValue(User::class.java)
                         if (userData?.email == googleEmail && uid != null) {
                             userData?.uid = uid
                             user = userData
