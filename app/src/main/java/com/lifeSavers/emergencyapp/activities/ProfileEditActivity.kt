@@ -1,9 +1,11 @@
 package com.lifeSavers.emergencyapp.activities
 
+import android.Manifest
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.ContentValues
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -15,6 +17,7 @@ import android.widget.Toast.makeText
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -28,6 +31,8 @@ import com.lifeSavers.emergencyapp.databinding.ActivityProfileEditBinding
 import java.util.*
 
 class ProfileEditActivity : AppCompatActivity() {
+
+    private val requestTakePhoto = 1
 
     // view binding
     private lateinit var binding: ActivityProfileEditBinding
@@ -247,16 +252,33 @@ class ProfileEditActivity : AppCompatActivity() {
     }
 
     private fun pickImageCamera() {
-        // intent to pick image from camera
-        val values = ContentValues()
-        values.put(MediaStore.Images.Media.TITLE, "Temp_Title")
-        values.put(MediaStore.Images.Media.DESCRIPTION, "Temp_Description")
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA),
+                requestTakePhoto
+            )
+        }
 
-        imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED) {
+            // intent to pick image from camera
+            val values = ContentValues()
+            values.put(MediaStore.Images.Media.TITLE, "Temp_Title")
+            values.put(MediaStore.Images.Media.DESCRIPTION, "Temp_Description")
 
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-        cameraActivityResultLauncher.launch(intent)
+            imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+            cameraActivityResultLauncher.launch(intent)
+        }
     }
 
     // used to handle result of camera intent (new way in replacement of startActivityForResult)

@@ -84,7 +84,7 @@
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="10dp"
             android:backgroundTint="@color/white"
-            android:text="Login with Google"
+            android:text="@string/login_with_google"
             android:textColor="@color/black"
             android:textStyle="bold"
             app:icon="@drawable/google_logo"
@@ -94,7 +94,6 @@
             app:iconTint="@color/black" />
 
         <!-- Not have account? Sign up! -->
-
         <TextView
             android:id="@+id/noAccountTv"
             style="@style/TextAppearance.MaterialComponents.Caption"

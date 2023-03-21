@@ -75,4 +75,5 @@
     <string name="app_guide">App guide</string>
     <string name="tutorial_video">Tutorial video</string>
     <string name="marker">marker</string>
+    <string name="login_with_google">Login with Google</string>
 </resources>
