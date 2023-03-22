@@ -35,6 +35,9 @@
             android:name=".activities.ChatActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.ConfirmEmailActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.AssistantsListForUsersActivity"
             android:exported="false" />
         <activity

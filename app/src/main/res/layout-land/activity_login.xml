@@ -78,6 +78,23 @@
             android:layout_marginEnd="30dp"
             android:text="@string/login" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/signInGoogleBtn"
+            android:layout_width="267dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="42dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/white"
+            android:text="@string/login_with_google"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:icon="@drawable/google_logo"
+            app:iconGravity="start"
+            app:iconPadding="4dp"
+            app:iconSize="20dp"
+            app:iconTint="@color/black" />
+
         <!-- Not have account? Sign up! -->
         <TextView
             android:id="@+id/noAccountTv"

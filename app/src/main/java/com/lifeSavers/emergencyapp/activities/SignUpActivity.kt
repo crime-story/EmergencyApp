@@ -62,7 +62,6 @@ class SignUpActivity : AppCompatActivity() {
             // validate data
             validateData()
         }
-
     }
 
     private fun validateData() {
@@ -79,9 +78,17 @@ class SignUpActivity : AppCompatActivity() {
         val currentYear = calendar[Calendar.YEAR]
 
         // validate data
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (name == "") {
+            binding.nameEt.error = "Please enter name"
+        } else if (name.length < 3) {
+            binding.nameEt.error = "Name must contain at least 3 letters"
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             // invalid email format
             binding.emailEt.error = "Invalid email format"
+        } else if (!Patterns.PHONE.matcher(phoneNumber).matches()) {
+            binding.phoneNumberEt.error = "Invalid phone format"
+        } else if (birthDate.length != 4 || birthDate >= currentYear.toString()) {
+            binding.birthDateEt.error = "Invalid year"
         } else if (TextUtils.isEmpty(password)) {
             // password isn't entered
             binding.passwordEt.error = "Please enter password"
@@ -91,14 +98,6 @@ class SignUpActivity : AppCompatActivity() {
         } else if (password != confirmedPassword) {
             binding.passwordEt.error = "Password and Confirmed Password must match"
             binding.confirmedPasswordEt.error = "Password and Confirmed Password must match"
-        } else if (name == "") {
-            binding.nameEt.error = "Please enter name"
-        } else if (name.length < 3) {
-            binding.nameEt.error = "Name must contain at least 3 letters"
-        } else if (!Patterns.PHONE.matcher(phoneNumber).matches()) {
-            binding.phoneNumberEt.error = "Invalid phone format"
-        } else if (birthDate.length != 4 || birthDate >= currentYear.toString()) {
-            binding.birthDateEt.error = "Invalid year"
         } else {
             // data is valid, continue signUp
             firebaseSignUp()
