@@ -75,7 +75,7 @@ or by clicking on this photo:
 
 ## Latest version
 
-The stable version of the game can be found on the `main` branch of this repository.
+The stable version of the app can be found on the `main` branch of this repository.
 
 
 ### Additional
