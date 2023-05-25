@@ -159,13 +159,8 @@ class ProfileActivity : AppCompatActivity() {
         // Check user is logged in or not
         firebaseAuth = FirebaseAuth.getInstance()
         val firebaseUser = firebaseAuth.currentUser
-        if (firebaseUser != null) {
-            // user not null, user is logged in, get user info
-            val email = firebaseUser.email
-            // set to text view
-            //binding.emailTv.text = email
-        } else {
-            // user is null, user is not logged in, goto login activity
+        if (firebaseUser == null) {
+            // user is null, user is not logged in, go to login activity
             startActivity(Intent(this, LogInActivity::class.java))
             finish()
         }

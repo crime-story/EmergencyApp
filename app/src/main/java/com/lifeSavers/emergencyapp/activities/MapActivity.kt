@@ -303,7 +303,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val task = settingsClient.checkLocationSettings(builder.build())
         task.addOnSuccessListener(
             this@MapActivity
-        ) { //getDeviceLocation()
+        ) {
         }
         task.addOnFailureListener(
             this@MapActivity

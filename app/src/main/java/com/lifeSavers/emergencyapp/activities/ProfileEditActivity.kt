@@ -267,7 +267,8 @@ class ProfileEditActivity : AppCompatActivity() {
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED) {
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             // intent to pick image from camera
             val values = ContentValues()
             values.put(MediaStore.Images.Media.TITLE, "Temp_Title")

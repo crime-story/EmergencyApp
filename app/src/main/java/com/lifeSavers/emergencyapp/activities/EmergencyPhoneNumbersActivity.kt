@@ -140,6 +140,7 @@ class EmergencyPhoneNumbersActivity : AppCompatActivity() {
             val phoneNumber = phoneNumbersMap[name]
 
             if (phoneNumber != null) {
+                this.phoneNumber = phoneNumber
                 if (ActivityCompat.checkSelfPermission(
                         this,
                         Manifest.permission.CALL_PHONE
@@ -151,7 +152,6 @@ class EmergencyPhoneNumbersActivity : AppCompatActivity() {
                         requestPhoneCall
                     )
                 } else {
-                    this.phoneNumber = phoneNumber
                     startCall()
                 }
             }

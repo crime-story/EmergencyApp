@@ -36,7 +36,6 @@ class AssistantsListForUsersActivity : AppCompatActivity() {
     var users: ArrayList<User>? = null
     var usersAdapter: UserAdapter? = null
     private var dialog: ProgressDialog? = null
-    var user: User? = null
     private lateinit var toggle: ActionBarDrawerToggle
 
     // ActionBar
@@ -126,16 +125,6 @@ class AssistantsListForUsersActivity : AppCompatActivity() {
         } else {
             binding!!.mRec.layoutManager = layoutManagerPortrait
         }
-        database!!.reference.child("Users")
-            .child(FirebaseAuth.getInstance().uid!!)
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    user = snapshot.getValue(User::class.java)
-                }
-
-                override fun onCancelled(error: DatabaseError) {}
-
-            })
         binding!!.mRec.adapter = usersAdapter
 
         searchView = findViewById(R.id.searchView)

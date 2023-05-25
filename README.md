@@ -21,7 +21,7 @@ By combining these various features, our app provides users with a comprehensive
 
 - RecyclerView with search function ✔️
 - A navigation method: Navigation Drawer ✔️
-- A Share method (Android Sharesheet) ✔️
+- A Share method (Android ShareSheet) ✔️
 - Local Notifications with Deep Links or using Firebase ✔️
 - An operation with a camera (picture) ✔️
 - Maps: permission from the user + overlays and markers + detail activity ✔️

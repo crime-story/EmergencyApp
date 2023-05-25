@@ -125,12 +125,6 @@ class LogInActivity : AppCompatActivity() {
                     val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
                     handleResults(task)
                 }
-                Activity.RESULT_CANCELED -> {
-                    // handle the cancelled result here
-                }
-                else -> {
-                    // handle any other result codes here
-                }
             }
         }
 
@@ -180,13 +174,8 @@ class LogInActivity : AppCompatActivity() {
 
                     if (user != null) {
                         // User with matching email found, check userType and redirect to MainActivity
-                        if (user.userType == 0L) {
-                            startActivity(Intent(this@LogInActivity, MainActivity::class.java))
-                            finish()
-                        } else {
-                            startActivity(Intent(this@LogInActivity, MainActivity::class.java))
-                            finish()
-                        }
+                        startActivity(Intent(this@LogInActivity, MainActivity::class.java))
+                        finish()
                     } else {
                         // User with matching email not found, redirect to GoogleSignUpActivity
                         val intent = Intent(this@LogInActivity, GoogleSignUpActivity::class.java)
@@ -288,15 +277,8 @@ class LogInActivity : AppCompatActivity() {
 
                     val postListener = object : ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
-                            val userType = dataSnapshot.getValue(Long::class.java)
-
-                            if (userType.toString() == "0") {
-                                startActivity(Intent(this@LogInActivity, MainActivity::class.java))
-                                finish()
-                            } else {
-                                startActivity(Intent(this@LogInActivity, MainActivity::class.java))
-                                finish()
-                            }
+                            startActivity(Intent(this@LogInActivity, MainActivity::class.java))
+                            finish()
                         }
 
                         override fun onCancelled(error: DatabaseError) {
@@ -307,9 +289,6 @@ class LogInActivity : AppCompatActivity() {
 
                     database.child(firebaseUser.uid).child("userType")
                         .addListenerForSingleValueEvent(postListener)
-                    // open profile
-
-//                    startActivity(Intent(this, PermissionsActivity::class.java))
                     finish()
                 } else {
                     Toast.makeText(this, "Please verify your email address.", Toast.LENGTH_SHORT)

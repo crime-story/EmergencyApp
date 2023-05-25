@@ -15,39 +15,4 @@ class Utils {
         )
         activity.startActivity(Intent.createChooser(shareIntent, "Share the app"))
     }
-
-    fun generatePassword(length: Int): String {
-        val allowedChars = ('a'..'z') + ('A'..'Z') + ('0'..'9') + listOf(
-            '!',
-            '@',
-            '#',
-            '$',
-            '%',
-            '^',
-            '&',
-            '*',
-            '(',
-            ')',
-            '-',
-            '_',
-            '+',
-            '=',
-            '[',
-            ']',
-            '{',
-            '}',
-            '|',
-            ';',
-            ':',
-            '<',
-            '>',
-            ',',
-            '.',
-            '?',
-            '/'
-        )
-        return (1..length)
-            .map { allowedChars.random() }
-            .joinToString("")
-    }
 }
